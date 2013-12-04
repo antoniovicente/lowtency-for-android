@@ -15,6 +15,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
+import com.avm.audio.AudioOutputManager;
+
 /**
  * @author Antonio Vicente Martin
  * 
@@ -26,6 +28,8 @@ public class StreamReceiver extends IntentService {
 	private Socket s;
 	private DatagramSocket datagramSocket;
 	private DatagramPacket datagramPacket;
+	
+	private AudioOutputManager audioOutputManager;
 
 	private ByteBuffer data;
 
@@ -35,6 +39,7 @@ public class StreamReceiver extends IntentService {
 	public StreamReceiver() {
 		super("StreamReceiver");
 
+		audioOutputManager = new AudioOutputManager(); 
 		try {
 			datagramSocket = new DatagramSocket();
 		} catch (SocketException e) {
@@ -55,6 +60,8 @@ public class StreamReceiver extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 
 		android.os.Debug.waitForDebugger();
+		
+		audioOutputManager.play();
 
 		try {
 			s.connect(new InetSocketAddress("192.168.3.135", 3333));
@@ -74,15 +81,27 @@ public class StreamReceiver extends IntentService {
 			e1.printStackTrace();
 		}
 		
+		datagramPacket.setData(new byte [DEFAULT_BUFFER_SIZE]);
+		
 		// Receive stream data
 		while (true) {
+			int bytesRead = 0;
 			try {
-				datagramSocket.receive(datagramPacket);
+				//while (bytesRead<DEFAULT_BUFFER_SIZE) {
+					datagramSocket.receive(datagramPacket);
+				//}
+				
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			Log.v("UDP", "First byte: "+datagramPacket.getData()[0]);
 
-			Log.v("UDP", datagramPacket.getData().length+"");
+			audioOutputManager.writeSamples(datagramPacket.getData());
+			
+			//TODO Process data stream 
+			//Log.v("UDP", datagramPacket.getData().length+"");
 		}
 
 

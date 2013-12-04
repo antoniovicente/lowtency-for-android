@@ -4,9 +4,9 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
-public class AudioOutputManager {
-	AudioTrack audioTrack;
-	short[] buffer = null;
+public class AudioOutputManager implements Runnable{
+	
+	private AudioTrack audioTrack;
 
 	public AudioOutputManager() {
 		this(44100,AudioFormat.CHANNEL_CONFIGURATION_MONO,AudioFormat.ENCODING_PCM_16BIT);
@@ -24,20 +24,21 @@ public class AudioOutputManager {
 
 	}
 
-	public void writeSamples(float[] samples) {
-		fillBuffer(samples);
-		audioTrack.write(buffer, 0, samples.length);
+	public void writeSamples(byte [] samples) {
+		audioTrack.write(samples, 0, samples.length);
 	}
 
-	private void fillBuffer(float[] samples) {
-		if (buffer == null)
-			buffer = new short[samples.length];
-
-		for (int i = 0; i < samples.length; i++)
-			buffer[i] = (short) (samples[i] * Short.MAX_VALUE);
-	}
 
 	public void play() {
 		audioTrack.play();
+	}
+	
+	public void stop() {
+		audioTrack.stop();
+	}
+
+	@Override
+	public void run() {
+		
 	}
 }
