@@ -1,62 +1,39 @@
 package com.avm;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketException;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
+
+import com.avm.thread.StreamReceiver;
 
 public class MainActivity extends Activity {
-	
-	private Socket s;
-	private DatagramSocket datagramSocket;
-	private DatagramPacket datagramPacket;
-	
-	private byte [] data;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		data = new byte [100];
-		
-		TextView tv = (TextView)findViewById(R.id.hello);
-		
-		s = new Socket();
+		Button start = (Button)findViewById(R.id.start);
+		start.setOnClickListener(new View.OnClickListener() {
 			
-
+			@Override
+			public void onClick(View v) {
+				startService(new Intent(MainActivity.this, StreamReceiver.class));
+			}
+		});
 		
-		try {
-			s.connect(new InetSocketAddress("192.168.3.132", 3333));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		
-		
-		try {
-			datagramSocket = new DatagramSocket(0);
-		} catch (SocketException e) {
-			e.printStackTrace();
-		}
-		
-		datagramPacket = new DatagramPacket(data, data.length);
-		
-		try {
-			datagramSocket.receive(datagramPacket);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		tv.setText(new String(datagramPacket.getData()));
-		
-		
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onResume()
+	 */
+	@Override
+	protected void onResume() {
+		super.onResume();
+	    
 	}
 
 	@Override
