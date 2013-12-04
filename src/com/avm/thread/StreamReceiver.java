@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.avm.audio.AudioOutputManager;
+import com.avm.util.SyncronizedRingBuffer;
 
 /**
  * @author Antonio Vicente Martin
@@ -28,8 +29,9 @@ public class StreamReceiver extends IntentService {
 	private Socket s;
 	private DatagramSocket datagramSocket;
 	private DatagramPacket datagramPacket;
-	
+
 	private AudioOutputManager audioOutputManager;
+	private SyncronizedRingBuffer<ByteBuffer> syncronizedRingBuffer;
 
 	private ByteBuffer data;
 
@@ -38,8 +40,8 @@ public class StreamReceiver extends IntentService {
 	 */
 	public StreamReceiver() {
 		super("StreamReceiver");
-
-		audioOutputManager = new AudioOutputManager(); 
+		syncronizedRingBuffer = new SyncronizedRingBuffer<ByteBuffer>();
+		audioOutputManager = new AudioOutputManager(syncronizedRingBuffer);
 		try {
 			datagramSocket = new DatagramSocket();
 		} catch (SocketException e) {
@@ -60,8 +62,6 @@ public class StreamReceiver extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 
 		android.os.Debug.waitForDebugger();
-		
-		audioOutputManager.play();
 
 		try {
 			s.connect(new InetSocketAddress("192.168.3.135", 3333));
@@ -80,30 +80,30 @@ public class StreamReceiver extends IntentService {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
-		datagramPacket.setData(new byte [DEFAULT_BUFFER_SIZE]);
-		
+
+		datagramPacket.setData(new byte[DEFAULT_BUFFER_SIZE]);
+
+		audioOutputManager.start();
+
 		// Receive stream data
 		while (true) {
-			int bytesRead = 0;
 			try {
-				//while (bytesRead<DEFAULT_BUFFER_SIZE) {
-					datagramSocket.receive(datagramPacket);
-				//}
-				
-				
+
+				datagramSocket.receive(datagramPacket);
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-			Log.v("UDP", "First byte: "+datagramPacket.getData()[0]);
 
-			audioOutputManager.writeSamples(datagramPacket.getData());
-			
-			//TODO Process data stream 
-			//Log.v("UDP", datagramPacket.getData().length+"");
+			// TODO Descompress
+
+			syncronizedRingBuffer.put(ByteBuffer.wrap(datagramPacket.getData().clone()));
+
+			Log.v("UDP", "First byte: " + datagramPacket.getData()[0]);
+
+			// TODO Process data stream
+
 		}
-
 
 	}
 
