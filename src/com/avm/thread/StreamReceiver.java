@@ -16,7 +16,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.avm.audio.AudioOutputManager;
-import com.avm.util.SyncronizedRingBuffer;
+import com.avm.util.SyncronizedRingQueueByteBuffer;
 
 /**
  * @author Antonio Vicente Martin
@@ -24,14 +24,14 @@ import com.avm.util.SyncronizedRingBuffer;
  */
 public class StreamReceiver extends IntentService {
 
-	public static final int DEFAULT_BUFFER_SIZE = 512;
+	private static int DEFAULT_BUFFER_SIZE = 512;
 
 	private Socket s;
 	private DatagramSocket datagramSocket;
 	private DatagramPacket datagramPacket;
 
 	private AudioOutputManager audioOutputManager;
-	private SyncronizedRingBuffer<ByteBuffer> syncronizedRingBuffer;
+	private SyncronizedRingQueueByteBuffer syncronizedRingBuffer;
 
 	private ByteBuffer data;
 
@@ -40,8 +40,15 @@ public class StreamReceiver extends IntentService {
 	 */
 	public StreamReceiver() {
 		super("StreamReceiver");
-		syncronizedRingBuffer = new SyncronizedRingBuffer<ByteBuffer>();
-		audioOutputManager = new AudioOutputManager(syncronizedRingBuffer);
+		audioOutputManager = new AudioOutputManager();
+		
+		DEFAULT_BUFFER_SIZE = audioOutputManager.getMinBufferSize();
+		
+		Log.v("Buffer","MinBufferSize: "+DEFAULT_BUFFER_SIZE);
+		
+		syncronizedRingBuffer = new SyncronizedRingQueueByteBuffer(audioOutputManager.getMinBufferSize());
+		audioOutputManager.setSyncronizedRingBuffer(syncronizedRingBuffer);
+		
 		try {
 			datagramSocket = new DatagramSocket();
 		} catch (SocketException e) {
@@ -64,7 +71,8 @@ public class StreamReceiver extends IntentService {
 		android.os.Debug.waitForDebugger();
 
 		try {
-			s.connect(new InetSocketAddress("192.168.3.135", 3333));
+			Log.v("Intent","Host: " + intent.getExtras().getString("host"));
+			s.connect(new InetSocketAddress(intent.getExtras().getString("host"), 3333));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -97,7 +105,7 @@ public class StreamReceiver extends IntentService {
 
 			// TODO Descompress
 
-			syncronizedRingBuffer.put(ByteBuffer.wrap(datagramPacket.getData().clone()));
+			syncronizedRingBuffer.dumpData(datagramPacket.getData());
 
 			Log.v("UDP", "First byte: " + datagramPacket.getData()[0]);
 

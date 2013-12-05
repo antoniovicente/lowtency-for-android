@@ -8,18 +8,25 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/hello"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
     <Button
-        android:id="@+id/start"
+        android:id="@+id/bStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/hello"
-        android:layout_below="@+id/hello"
         android:text="Start" />
+
+    <EditText
+        android:id="@+id/tvIp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/bStart"
+        android:layout_alignBottom="@+id/bStart"
+        android:layout_toRightOf="@+id/bStart"
+        android:ems="10"
+        android:text="192.168.3.135"
+        android:inputType="textVisiblePassword"
+        android:digits="0123456789\\." >
+
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>

@@ -2,16 +2,22 @@ package com.avm.util;
 
 import java.util.concurrent.Semaphore;
 
-public class SyncronizedRingBuffer<T> {
+/**
+ * This class implements a concurrent safe ring queue.
+ * @author Antonio Vicente Martin
+ *
+ * @param <T>
+ */
+public class SyncronizedRingQueue<T> {
 	
-	public static final int DEFAULT_CAPACITY = 256;
+	public static final int DEFAULT_CAPACITY = 64;
 
-	private Object[] syncronizedBuffer;
-	private int head, tail, size;
+	protected Object[] syncronizedBuffer;
+	protected int head, tail, size;
 
-	private Semaphore itemAvailable, positionAvailable;
+	protected Semaphore itemAvailable, positionAvailable;
 
-	public SyncronizedRingBuffer(int size) {		
+	public SyncronizedRingQueue(int size) {		
 		this.syncronizedBuffer = new Object[size];
 		this.head = 0;
 		this.tail = 0;
@@ -20,7 +26,7 @@ public class SyncronizedRingBuffer<T> {
 		this.positionAvailable = new Semaphore(size);
 	}
 
-	public SyncronizedRingBuffer() {
+	public SyncronizedRingQueue() {
 		this(DEFAULT_CAPACITY);
 	}
 
