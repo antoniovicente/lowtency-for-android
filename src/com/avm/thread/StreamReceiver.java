@@ -9,13 +9,13 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
-import java.nio.ByteBuffer;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
 import com.avm.audio.AudioOutputManager;
+import com.avm.util.ByteConverter;
 import com.avm.util.SyncronizedRingQueueByteBuffer;
 
 /**
@@ -24,7 +24,7 @@ import com.avm.util.SyncronizedRingQueueByteBuffer;
  */
 public class StreamReceiver extends IntentService {
 
-	private static int DEFAULT_BUFFER_SIZE = 512;
+	private static int DEFAULT_BUFFER_SIZE = 8192;
 
 	private Socket s;
 	private DatagramSocket datagramSocket;
@@ -33,21 +33,21 @@ public class StreamReceiver extends IntentService {
 	private AudioOutputManager audioOutputManager;
 	private SyncronizedRingQueueByteBuffer syncronizedRingBuffer;
 
-	private ByteBuffer data;
+	private byte [] udpPortdata;
+	private byte [] data;
 
 	/**
 	 * @param name
 	 */
 	public StreamReceiver() {
 		super("StreamReceiver");
-		audioOutputManager = new AudioOutputManager();
+		data = new byte[DEFAULT_BUFFER_SIZE*2];
+		
+		audioOutputManager = new AudioOutputManager(data);
 		
 		DEFAULT_BUFFER_SIZE = audioOutputManager.getMinBufferSize();
 		
 		Log.v("Buffer","MinBufferSize: "+DEFAULT_BUFFER_SIZE);
-		
-		syncronizedRingBuffer = new SyncronizedRingQueueByteBuffer(audioOutputManager.getMinBufferSize());
-		audioOutputManager.setSyncronizedRingBuffer(syncronizedRingBuffer);
 		
 		try {
 			datagramSocket = new DatagramSocket();
@@ -55,7 +55,8 @@ public class StreamReceiver extends IntentService {
 			e.printStackTrace();
 		}
 
-		data = ByteBuffer.allocate(4);
+		//Buffer to host UPD port value
+		udpPortdata = new byte [4];
 
 		s = new Socket();
 	}
@@ -78,23 +79,31 @@ public class StreamReceiver extends IntentService {
 		}
 
 		int port = datagramSocket.getLocalPort();
-		data.putInt(port);
+		udpPortdata[3] = ByteConverter.getByteAt(port, 0);
+		udpPortdata[2] = ByteConverter.getByteAt(port, 1);
+		udpPortdata[1] = ByteConverter.getByteAt(port, 2);
+		udpPortdata[0] = ByteConverter.getByteAt(port, 3);
 
-		datagramPacket = new DatagramPacket(data.array(), data.capacity());
+		datagramPacket = new DatagramPacket(udpPortdata, udpPortdata.length);
 
 		try {
 			// Send udp client information
-			s.getOutputStream().write(data.array());
+			s.getOutputStream().write(udpPortdata);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 
-		datagramPacket.setData(new byte[DEFAULT_BUFFER_SIZE]);
+		datagramPacket.setData(data);
 
-		audioOutputManager.start();
+		audioOutputManager.play();
+		
+		long before = 0;
+		long after = System.currentTimeMillis();
 
 		// Receive stream data
 		while (true) {
+			before = after;
+			
 			try {
 
 				datagramSocket.receive(datagramPacket);
@@ -102,11 +111,20 @@ public class StreamReceiver extends IntentService {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			after = System.currentTimeMillis();
+			Log.v("UDP", "Time receive: " + (after-before));
+			
+			before = after;
 
 			// TODO Descompress
 
-			syncronizedRingBuffer.dumpData(datagramPacket.getData());
-
+			//syncronizedRingBuffer.dumpData(datagramPacket.getData());
+			
+			audioOutputManager.playSamples();
+			
+			after = System.currentTimeMillis();
+			Log.v("UDP", "Time Play: " + (after-before));
 			Log.v("UDP", "First byte: " + datagramPacket.getData()[0]);
 
 			// TODO Process data stream

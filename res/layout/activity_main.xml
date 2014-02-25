@@ -22,7 +22,7 @@
         android:layout_alignBottom="@+id/bStart"
         android:layout_toRightOf="@+id/bStart"
         android:ems="10"
-        android:text="192.168.3.135"
+        android:text="192.168.3.138"
         android:inputType="textVisiblePassword"
         android:digits="0123456789\\." >
 
