@@ -15,7 +15,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.avm.audio.AudioOutputManager;
-import com.avm.util.ByteConverter;
+import com.avm.converter.ByteConverter;
 import com.avm.util.SyncronizedRingQueueByteBuffer;
 
 /**
