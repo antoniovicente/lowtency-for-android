@@ -55,9 +55,6 @@ public class StreamReceiver extends IntentService {
 			e.printStackTrace();
 		}
 
-		//Buffer to host UPD port value
-		udpPortdata = new byte [4];
-
 		s = new Socket();
 	}
 
@@ -79,10 +76,9 @@ public class StreamReceiver extends IntentService {
 		}
 
 		int port = datagramSocket.getLocalPort();
-		udpPortdata[3] = ByteConverter.getByteAt(port, 0);
-		udpPortdata[2] = ByteConverter.getByteAt(port, 1);
-		udpPortdata[1] = ByteConverter.getByteAt(port, 2);
-		udpPortdata[0] = ByteConverter.getByteAt(port, 3);
+		
+		//Buffer to host UPD port value
+		udpPortdata = ByteConverter.toBytesArray(port);
 
 		datagramPacket = new DatagramPacket(udpPortdata, udpPortdata.length);
 
