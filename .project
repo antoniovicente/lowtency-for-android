@@ -3,6 +3,7 @@
 	<name>AudioTransceiverClient</name>
 	<comment></comment>
 	<projects>
+		<project>AudioTransceiverCommon</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
