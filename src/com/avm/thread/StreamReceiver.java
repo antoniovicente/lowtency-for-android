@@ -16,7 +16,6 @@ import android.util.Log;
 
 import com.avm.audio.AudioOutputManager;
 import com.avm.util.ByteConverter;
-import com.avm.util.SyncronizedRingQueueByteBuffer;
 
 /**
  * @author Antonio Vicente Martin
@@ -31,7 +30,6 @@ public class StreamReceiver extends IntentService {
 	private DatagramPacket datagramPacket;
 
 	private AudioOutputManager audioOutputManager;
-	private SyncronizedRingQueueByteBuffer syncronizedRingBuffer;
 
 	private byte [] udpPortdata;
 	private byte [] data;
@@ -48,12 +46,6 @@ public class StreamReceiver extends IntentService {
 		DEFAULT_BUFFER_SIZE = audioOutputManager.getMinBufferSize();
 		
 		Log.v("Buffer","MinBufferSize: "+DEFAULT_BUFFER_SIZE);
-		
-		try {
-			datagramSocket = new DatagramSocket();
-		} catch (SocketException e) {
-			e.printStackTrace();
-		}
 
 		s = new Socket();
 	}
@@ -75,19 +67,25 @@ public class StreamReceiver extends IntentService {
 			e1.printStackTrace();
 		}
 
-		int port = datagramSocket.getLocalPort();
+		int port = s.getLocalPort();
+		
+		try {
+			datagramSocket = new DatagramSocket(port);
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
 		
 		//Buffer to host UPD port value
-		udpPortdata = ByteConverter.toBytesArray(port);
+		udpPortdata = ByteConverter.toBytesArray(port,true);
 
 		datagramPacket = new DatagramPacket(udpPortdata, udpPortdata.length);
 
-		try {
+		/*try {
 			// Send udp client information
 			s.getOutputStream().write(udpPortdata);
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		}
+		}*/
 
 		datagramPacket.setData(data);
 

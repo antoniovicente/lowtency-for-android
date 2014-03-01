@@ -29,8 +29,8 @@ public class ByteConverter {
 	 * @param bytes 
 	 * @return bytes The value's bytes
 	 */
-	public static byte[] toBytesArray(int value) {
-		return toBytesArray(value, 4);
+	public static byte[] toBytesArray(int value, boolean littleEndian) {
+		return toBytesArray(value, 4, littleEndian);
 	}
 	
 	/**
@@ -39,10 +39,20 @@ public class ByteConverter {
 	 * @param numBytes
 	 * @return bytes The value's bytes
 	 */
-	private static byte[] toBytesArray(long value, int numBytes) {
+	private static byte[] toBytesArray(long value, int numBytes,  boolean littleEndian) {
 		byte[] bytes = new byte[numBytes];
-		for (int i = 0; i < bytes.length; i++) {
-			bytes[i] = getByteAt(value, i);
+		
+		int i = 0;
+		int sum = 1;
+		
+		if (littleEndian) {
+			// Reverse endian iteration
+			i = numBytes - 1;
+			sum = -1;
+		}
+		
+		for (int j = 0; i < bytes.length && i >= 0; i += sum) {
+			bytes[j++] = getByteAt(value, i);
 		}
 
 		return bytes;
