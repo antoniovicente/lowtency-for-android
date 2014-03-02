@@ -26,6 +26,10 @@ public class AudioOutputManager  {
 	public void writeSamples(byte[] samples) {
 		audioTrack.write(samples, 0, samples.length);
 	}
+	
+	public void writeSamples(byte[] samples, int i, int j) {
+		audioTrack.write(samples, i, j);
+	}
 
 	public void play() {
 		audioTrack.play();
