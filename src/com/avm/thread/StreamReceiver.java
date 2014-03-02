@@ -76,7 +76,7 @@ public class StreamReceiver extends IntentService {
 		}
 
 		// Buffer to host UPD port value
-		udpPortdata = ByteConverter.toBytesArray(port, true);
+		udpPortdata = ByteConverter.toBytesArray(port);
 
 		datagramPacket = new DatagramPacket(udpPortdata, udpPortdata.length);
 		datagramPacketUDPIDResponse = new DatagramPacket(new byte[4], 4);
@@ -99,8 +99,12 @@ public class StreamReceiver extends IntentService {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			System.arraycopy(datagramPacket.getData(), 0, datagramPacketUDPIDResponse.getData(), 0, 4);
 
 			try {
+				// Send a response udp datagram to let the server measure the
+				// time arrival
 				datagramSocket.send(datagramPacketUDPIDResponse);
 			} catch (IOException e) {
 				e.printStackTrace();
