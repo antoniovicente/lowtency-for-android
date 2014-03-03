@@ -3,6 +3,8 @@
  */
 package com.avm.util;
 
+import java.util.Arrays;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -37,14 +39,32 @@ public class ByteConverterTest {
 		Assert.assertEquals(4, ByteConverter.getByteAt(test, 3));
 	}
 	
-	/*
-	 * @Test public void testToByteArrayLittleEndian() { int test = 0x04030201;
-	 * byte [] out = {4, 3, 2, 1}; Assert.assertTrue(Arrays.equals(out,
-	 * ByteConverter.toBytesArray(test,true))); }
-	 * 
-	 * @Test public void testToByteArrayBigEndian() { int test = 0x04030201;
-	 * byte [] out = {1, 2, 3, 4}; Assert.assertTrue(Arrays.equals(out,
-	 * ByteConverter.toBytesArray(test,false))); }
-	 */
+	@Test
+	public void testToByteArrayLittleEndian() {
+		int test = 0x04030201;
+		byte[] expected = { 4, 3, 2, 1 };
+		Assert.assertTrue(Arrays.equals(expected, ByteConverter.toBytesArray(test, true)));
+	}
+
+	@Test
+	public void testToByteArrayBigEndian() {
+		int test = 0x04030201;
+		byte[] expected = { 1, 2, 3, 4 };
+		Assert.assertTrue(Arrays.equals(expected, ByteConverter.toBytesArray(test, false)));
+	}
+
+	@Test
+	public void testToIntValueLittleEndian() {
+		byte[] test = { 4, 3, 2, 1 };
+		int expected = 0x04030201;
+		Assert.assertEquals(expected, ByteConverter.toIntValue(test, 0, true));
+	}
+
+	@Test
+	public void testToIntValueBigEndian() {
+		int expected = 0x04030201;
+		byte[] test = { 1, 2, 3, 4 };
+		Assert.assertEquals(expected, ByteConverter.toIntValue(test, 0, false));
+	}
 
 }

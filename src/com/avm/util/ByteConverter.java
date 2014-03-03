@@ -24,76 +24,120 @@ public class ByteConverter {
 	}
 
 	/**
-	 * Returns an int value splitted into a byte array
-	 * @param value The int value
-	 * @param bytes 
+	 * Returns an int value splitted into a littleEndian byte array
+	 * 
+	 * @param value
+	 *            The int value
 	 * @return bytes The value's bytes
 	 */
 	public static byte[] toBytesArray(int value) {
-		return toBytesArray(value, 4);
+		return toBytesArray(value, 4, true);
 	}
-	
+
+	/**
+	 * Returns an int value splitted into a byte array
+	 * 
+	 * @param value
+	 *            The int value
+	 * @param littleEndian
+	 *            The array of bytes endianess
+	 * @return bytes The value's bytes
+	 */
+	public static byte[] toBytesArray(int value, boolean littleEndian) {
+		return toBytesArray(value, 4, littleEndian);
+	}
+
 	/**
 	 * Returns a new array of bytes with the splitted value
-	 * @param value The vale to convert
-	 * @param numBytes The number of bytes
+	 * 
+	 * @param value
+	 *            The vale to convert
+	 * @param numBytes
+	 *            The number of bytes
+	 * @param littleEndian
+	 *            The array of bytes endianess
 	 * @return bytes The array of bytes
 	 */
-	public static byte[] toBytesArray(long value, int numBytes) {
+	public static byte[] toBytesArray(long value, int numBytes, boolean littleEndian) {
 		byte[] bytes = new byte[numBytes];
 
-		return toBytesArray(value, bytes);
+		return toBytesArray(value, bytes, littleEndian);
 	}
-	
+
 	/**
 	 * Returns a value splitted into a specified byte array
-	 * @param value The long value to split
-	 * @param bytes The array of bytes to write in
+	 * 
+	 * @param value
+	 *            The long value to split
+	 * @param bytes
+	 *            The array of bytes to write in
+	 * @param littleEndian
+	 *            The array of bytes endianess
 	 * @return bytes The value's bytes
 	 */
-	public static byte[] toBytesArray(long value, byte [] bytes) {
-		return toBytesArray(value, bytes, 0, bytes.length);
+	public static byte[] toBytesArray(long value, byte[] bytes, boolean littleEndian) {
+		return toBytesArray(value, bytes, 0, bytes.length, littleEndian);
 	}
-	
+
 	/**
 	 * Returns a value splitted into a specified byte array
-	 * @param value The long value to split
-	 * @param bytes The array of bytes to write in
-	 * @param start The start iteration index
-	 * @param end The end iterarion index
+	 * 
+	 * @param value
+	 *            The long value to split
+	 * @param bytes
+	 *            The array of bytes to write in
+	 * @param start
+	 *            The start iteration index
+	 * @param end
+	 *            The end iterarion index
+	 * @param littleEndian
+	 *            The array of bytes endianess
 	 * @return bytes The value's bytes
 	 */
-	public static byte[] toBytesArray(long value, byte [] bytes, int start, int end) {
-		for (int i = start; i < end; i++) {
-			bytes[i] = getByteAt(value, i);
+	public static byte[] toBytesArray(long value, byte[] bytes, int start, int end, boolean littleEndian) {
+		int i = start;
+		int sum = 1;
+
+		if (littleEndian) {
+			// Reverse iteration
+			i = end - 1;
+			sum = -1;
+		}
+
+		for (int j = start; j < bytes.length && i < end && i >= start; i += sum) {
+			bytes[j++] = getByteAt(value, i);
 		}
 
 		return bytes;
 	}
-	
+
 	/**
 	 * Return an integer built from an array of bytes
-	 * @param bytes The raw bytes
-	 * @param index The initial position
-	 * @param littleEndian The byte order
+	 * 
+	 * @param bytes
+	 *            The raw bytes
+	 * @param index
+	 *            The initial position
+	 * @param littleEndian
+	 *            The byte order
 	 * @return The int value
 	 */
-	public static int toIntValue(byte [] bytes, int index, boolean littleEndian) {
+	public static int toIntValue(byte[] bytes, int index, boolean littleEndian) {
 		int value = 0;
-		
+
 		int i = index;
 		int sum = 1;
-		
+
 		if (littleEndian) {
 			// Reverse iteration
-			i = Math.min(bytes.length ,4 + index);
+			i = Math.min(bytes.length, 4 + index) - 1;
 			sum = -1;
 		}
-		
-		for (; i < 4 && i < bytes.length && i >= index; i+=sum) {
-			value += bytes[i] << 8*i;
+
+		for (int j = index; j < bytes.length && i < 4 && i >= index; i += sum) {
+			value += bytes[j++] << 8 * i;
 		}
-		
+
 		return value;
 
 	}
