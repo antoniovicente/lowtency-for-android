@@ -128,6 +128,11 @@ public class ByteConverter {
 		int i = index;
 		int sum = 1;
 
+		// The index + 4 int bytes must be within array bounds
+		if (index + 4 > bytes.length) {
+			throw new IllegalArgumentException("At least 4 bytes needed.");
+		}
+
 		if (littleEndian) {
 			// Reverse iteration
 			i = Math.min(bytes.length, 4 + index) - 1;
@@ -135,7 +140,8 @@ public class ByteConverter {
 		}
 
 		for (int j = index; j < bytes.length && i < 4 && i >= index; i += sum) {
-			value += bytes[j++] << 8 * i;
+			// The bit and operation is used to get an unsigned value
+			value += (bytes[j++] & 0xFF) << 8 * i;
 		}
 
 		return value;

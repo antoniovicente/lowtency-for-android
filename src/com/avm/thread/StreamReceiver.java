@@ -101,11 +101,13 @@ public class StreamReceiver extends IntentService {
 				e.printStackTrace();
 			}
 
+			Log.v("UDP", "UDPid: " + ByteConverter.toIntValue(datagramPacket.getData(), 0, true));
+
 			System.arraycopy(datagramPacket.getData(), 0, datagramPacketUDPIDResponse.getData(), 0, 4);
 
 			try {
-				// Send a response udp datagram to let the server measure the
-				// time arrival
+				// Send a response udp datagram to let the server measure
+				// the time arrival
 				datagramSocket.send(datagramPacketUDPIDResponse);
 			} catch (IOException e) {
 				e.printStackTrace();
