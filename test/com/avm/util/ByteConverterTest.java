@@ -3,8 +3,6 @@
  */
 package com.avm.util;
 
-import java.util.Arrays;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -39,18 +37,14 @@ public class ByteConverterTest {
 		Assert.assertEquals(4, ByteConverter.getByteAt(test, 3));
 	}
 	
-	@Test
-	public void testToByteArrayLittleEndian() {
-		int test = 0x04030201;
-		byte [] out = {4, 3, 2, 1};
-		Assert.assertTrue(Arrays.equals(out, ByteConverter.toBytesArray(test,true)));
-	}
-	
-	@Test
-	public void testToByteArrayBigEndian() {
-		int test = 0x04030201;
-		byte [] out = {1, 2, 3, 4};
-		Assert.assertTrue(Arrays.equals(out, ByteConverter.toBytesArray(test,false)));
-	}
+	/*
+	 * @Test public void testToByteArrayLittleEndian() { int test = 0x04030201;
+	 * byte [] out = {4, 3, 2, 1}; Assert.assertTrue(Arrays.equals(out,
+	 * ByteConverter.toBytesArray(test,true))); }
+	 * 
+	 * @Test public void testToByteArrayBigEndian() { int test = 0x04030201;
+	 * byte [] out = {1, 2, 3, 4}; Assert.assertTrue(Arrays.equals(out,
+	 * ByteConverter.toBytesArray(test,false))); }
+	 */
 
 }

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.avm.thread;
 
 import java.io.IOException;
@@ -79,7 +76,11 @@ public class StreamReceiver extends IntentService {
 		udpPortdata = ByteConverter.toBytesArray(port);
 
 		datagramPacket = new DatagramPacket(udpPortdata, udpPortdata.length);
-		datagramPacketUDPIDResponse = new DatagramPacket(new byte[4], 4);
+		try {
+			datagramPacketUDPIDResponse = new DatagramPacket(new byte[4], 4, s.getRemoteSocketAddress());
+		} catch (SocketException e1) {
+			e1.printStackTrace();
+		}
 
 		datagramPacket.setData(data);
 
@@ -99,7 +100,7 @@ public class StreamReceiver extends IntentService {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
 			System.arraycopy(datagramPacket.getData(), 0, datagramPacketUDPIDResponse.getData(), 0, 4);
 
 			try {
