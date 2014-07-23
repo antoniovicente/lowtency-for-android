@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.avm.util;
+package com.antoniovm.lowtency.util;
 
 /**
  * @author Antonio Vicente Martin

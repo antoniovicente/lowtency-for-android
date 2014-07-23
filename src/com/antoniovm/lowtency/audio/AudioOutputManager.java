@@ -1,4 +1,4 @@
-package com.avm.audio;
+package com.antoniovm.lowtency.audio;
 
 import android.media.AudioFormat;
 import android.media.AudioManager;

@@ -1,4 +1,4 @@
-package com.avm;
+package com.antoniovm.lowtency;
 
 import java.util.regex.Pattern;
 
@@ -11,7 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.avm.thread.StreamReceiver;
+import com.antoniovm.lowtency.R;
+import com.antoniovm.lowtency.thread.StreamReceiver;
 
 public class MainActivity extends Activity {
 

@@ -1,4 +1,4 @@
-package com.avm.util;
+package com.antoniovm.lowtency.util;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

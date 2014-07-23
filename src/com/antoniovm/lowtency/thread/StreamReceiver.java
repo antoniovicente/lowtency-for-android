@@ -1,4 +1,4 @@
-package com.avm.thread;
+package com.antoniovm.lowtency.thread;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -11,8 +11,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.avm.audio.AudioOutputManager;
-import com.avm.util.ByteConverter;
+import com.antoniovm.lowtency.audio.AudioOutputManager;
+import com.antoniovm.lowtency.util.ByteConverter;
 
 /**
  * @author Antonio Vicente Martin

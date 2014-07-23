@@ -1,13 +1,15 @@
 /**
  * 
  */
-package com.avm.util;
+package com.antoniovm.lowtency.util;
 
 import java.util.Arrays;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
+
+import com.antoniovm.lowtency.util.ByteConverter;
 
 /**
  * @author Antonio Vicente Martin

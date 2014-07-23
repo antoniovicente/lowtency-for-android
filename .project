@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>AudioTransceiverClient</name>
+	<name>LowtencyForAndroid</name>
 	<comment></comment>
 	<projects>
 		<project>AudioTransceiverCommon</project>
