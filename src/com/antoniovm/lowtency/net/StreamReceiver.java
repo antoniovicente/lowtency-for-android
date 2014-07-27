@@ -1,4 +1,4 @@
-package com.antoniovm.lowtency.thread;
+package com.antoniovm.lowtency.net;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

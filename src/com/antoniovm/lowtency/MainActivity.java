@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antoniovm.lowtency.R;
-import com.antoniovm.lowtency.thread.StreamReceiver;
+import com.antoniovm.lowtency.net.StreamReceiver;
 
 public class MainActivity extends Activity {
 

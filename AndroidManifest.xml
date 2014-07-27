@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <service 
-            android:name="com.antoniovm.lowtency.thread.StreamReceiverceiver"
+            android:name="com.antoniovm.lowtency.net.StreamReceiverceiver"
             android:process=":stream_receiver" ></service>
     </application>
 
