@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.antoniovm.lowtency.R;
+import com.antoniovm.lowtency.audio.AudioInputManager;
 import com.antoniovm.lowtency.net.StreamReceiver;
 
 public class MainActivity extends Activity {
@@ -28,6 +28,20 @@ public class MainActivity extends Activity {
 				+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
 				+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 		;
+
+		final AudioInputManager audioInputManager = new AudioInputManager();
+
+		Button record = (Button) findViewById(R.id.bReadFromMic);
+		record.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				if (!audioInputManager.isRecording()) {
+					audioInputManager.startRecording();
+				} else {
+					audioInputManager.stopRecording();
+				}
+
+			};
+		});
 
 		Button start = (Button) findViewById(R.id.bStart);
 		start.setOnClickListener(new View.OnClickListener() {

@@ -4,22 +4,29 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
+/**
+ * This class handles the audio stream and sends it to the output device
+ * 
+ * @author Antonio Vicente Martin
+ * 
+ */
 public class AudioOutputManager  {
 
 	private AudioTrack audioTrack;
 	private byte [] samplesBuffer;
 
 	public AudioOutputManager(byte [] samplesBuffer) {
-		this(44100, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT, samplesBuffer);
+		this(AudioIOManger.DEFAULT_SAMPLERATE, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT,
+				samplesBuffer);
 	}
 
 	public AudioOutputManager(int sampleRate, int channelFormat, int encodingFormat,
-			byte [] syncronizedRingBuffer) {
+ byte[] samplesBuffer) {
 		int tamanoMinimoDeBuffer = AudioTrack.getMinBufferSize(sampleRate, channelFormat, encodingFormat);
 
 		this.audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate, channelFormat, encodingFormat,
 				tamanoMinimoDeBuffer, AudioTrack.MODE_STREAM);
-		this.samplesBuffer = syncronizedRingBuffer;
+		this.samplesBuffer = samplesBuffer;
 
 	}
 
