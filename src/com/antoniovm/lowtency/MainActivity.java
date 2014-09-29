@@ -12,9 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antoniovm.lowtency.audio.AudioInputManager;
+import com.antoniovm.lowtency.core.StreamManager;
 import com.antoniovm.lowtency.net.StreamReceiver;
 
 public class MainActivity extends Activity {
+	
+	private StreamManager streamManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class MainActivity extends Activity {
 				+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 		;
 
+		streamManager = new StreamManager();
 		final AudioInputManager audioInputManager = new AudioInputManager();
 
 		Button record = (Button) findViewById(R.id.bReadFromMic);

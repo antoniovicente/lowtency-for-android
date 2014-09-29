@@ -15,7 +15,40 @@ public class StreamManager implements Runnable {
 	private AudioInputManager audioInputManager;
 	private StreamSender sender;
 	private Thread thread;
+	private boolean running;
 	
+	/**
+	 * 
+	 */
+	public StreamManager() {
+		this.audioInputManager = new AudioInputManager();
+		this.sender = new StreamSender(audioInputManager.getData());
+	}
+	
+	/**
+	 * 
+	 * Starts a new Thread
+	 * 
+	 * @return true if it could be started, false otherwise
+	 */
+	public boolean start() {
+		if (this.thread == null) {
+			this.thread = new Thread(this);
+			this.thread.start();
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Makes a request to the thread to stop
+	 */
+	public void stop() {
+		running = false;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -23,7 +56,14 @@ public class StreamManager implements Runnable {
 	 */
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		running = true;
+		
+		while (running) {
+			audioInputManager.read1Synchronized6BitMono();
+			audioInputManager.printBuffer();
+		}
+
+		this.thread = null;
 
 	}
 

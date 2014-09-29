@@ -18,7 +18,7 @@ import android.media.MediaRecorder;
 public class AudioInputManager {
 
 	private AudioRecord recorder;
-	private short[] buffer;
+	private byte[] buffer;
 	private Semaphore semaphore;
 
 	public AudioInputManager() {
@@ -76,7 +76,7 @@ public class AudioInputManager {
 	 * 
 	 * @param buffer
 	 */
-	private synchronized void read16BitMono(short[] buffer) {
+	private synchronized void read16BitMono(byte[] buffer) {
 		recorder.read(buffer, 0, buffer.length);
 	}
 
@@ -85,7 +85,7 @@ public class AudioInputManager {
 	 * 
 	 * @param buffer
 	 */
-	public void read1Synchronized6BitMono(short[] buffer) {
+	public void read1Synchronized6BitMono(byte[] buffer) {
 		waitForStart();
 		read16BitMono(buffer);
 		semaphore.release();
@@ -97,7 +97,7 @@ public class AudioInputManager {
 	 * @param buffer
 	 * @return theBuffer
 	 */
-	public short[] read1Synchronized6BitMono() {
+	public byte[] read1Synchronized6BitMono() {
 		read1Synchronized6BitMono(buffer);
 		return buffer;
 	}
@@ -111,5 +111,24 @@ public class AudioInputManager {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * @return
+	 */
+	public byte[] getData() {
+		return buffer;
+	}
+
+	/**
+	 * 
+	 */
+	public void printBuffer() {
+		System.out.print("[");
+		for (int i = 0; i < buffer.length; i = i+2) {
+			System.out.print(buffer[i] + buffer[i + 1] * 256);
+		}
+		System.out.println("]");
+
 	}
 }
