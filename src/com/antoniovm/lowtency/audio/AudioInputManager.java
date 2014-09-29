@@ -92,6 +92,17 @@ public class AudioInputManager {
 	}
 
 	/**
+	 * Reads 16 bit mono channel. It blocks if the Semaphore does not permit it
+	 * 
+	 * @param buffer
+	 * @return theBuffer
+	 */
+	public short[] read1Synchronized6BitMono() {
+		read1Synchronized6BitMono(buffer);
+		return buffer;
+	}
+
+	/**
 	 * It aquires the Semaphore
 	 */
 	private void waitForStart() {
