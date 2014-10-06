@@ -60,8 +60,19 @@ public class StreamSender {
 	 * 
 	 * @param data
 	 */
-	public void send(byte[] data) {
+	public void sendUDP(byte[] data) {
 		datagramPacket.setData(data);
+		try {
+			datagramSocket.send(datagramPacket);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Sends UDP package
+	 */
+	public void sendUDP() {
 		try {
 			datagramSocket.send(datagramPacket);
 		} catch (IOException e) {

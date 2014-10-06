@@ -31,7 +31,7 @@ public class StreamManager implements Runnable {
 	 * 
 	 * @return true if it could be started, false otherwise
 	 */
-	public boolean start() {
+	public boolean startThread() {
 		if (this.thread == null) {
 			this.thread = new Thread(this);
 			this.thread.start();
@@ -60,11 +60,32 @@ public class StreamManager implements Runnable {
 		
 		while (running) {
 			audioInputManager.read1Synchronized6BitMono();
-			audioInputManager.printBuffer();
+			sender.sendUDP();
 		}
 
 		this.thread = null;
 
+	}
+
+	/**
+	 * 
+	 */
+	public boolean isStreaming() {
+		return audioInputManager.isRecording();
+	}
+
+	/**
+	 * 
+	 */
+	public void startStreaming() {
+		audioInputManager.startRecording();
+	}
+
+	/**
+	 * 
+	 */
+	public void stopStreaming() {
+		audioInputManager.stopRecording();
 	}
 
 }

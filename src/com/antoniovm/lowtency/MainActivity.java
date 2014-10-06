@@ -24,6 +24,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		streamManager = new StreamManager();
+
 		final TextView ip = (TextView) findViewById(R.id.tvIp);
 
 		final String ipregex = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
@@ -33,15 +35,17 @@ public class MainActivity extends Activity {
 		;
 
 		streamManager = new StreamManager();
+		streamManager.startThread();
+
 		final AudioInputManager audioInputManager = new AudioInputManager();
 
 		Button record = (Button) findViewById(R.id.bReadFromMic);
 		record.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if (!audioInputManager.isRecording()) {
-					audioInputManager.startRecording();
+				if (!streamManager.isStreaming()) {
+					streamManager.startStreaming();
 				} else {
-					audioInputManager.stopRecording();
+					streamManager.stopStreaming();
 				}
 
 			};

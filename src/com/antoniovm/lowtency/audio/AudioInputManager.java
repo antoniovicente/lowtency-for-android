@@ -27,7 +27,8 @@ public class AudioInputManager {
 		this.recorder = new AudioRecord(MediaRecorder.AudioSource.DEFAULT, AudioIOManger.DEFAULT_SAMPLERATE,
 				AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, minBufferSize);
 
-		this.semaphore = new Semaphore(1);
+		this.buffer = new byte[minBufferSize * AudioFormat.ENCODING_PCM_16BIT];
+		this.semaphore = new Semaphore(0);
 	}
 
 	/**
@@ -126,7 +127,7 @@ public class AudioInputManager {
 	public void printBuffer() {
 		System.out.print("[");
 		for (int i = 0; i < buffer.length; i = i+2) {
-			System.out.print(buffer[i] + buffer[i + 1] * 256);
+			System.out.print((buffer[i] + buffer[i + 1] * 256) + " ");
 		}
 		System.out.println("]");
 
