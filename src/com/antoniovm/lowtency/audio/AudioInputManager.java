@@ -132,4 +132,13 @@ public class AudioInputManager {
 		System.out.println("]");
 
 	}
+
+	/**
+	 * Returns the buffer size
+	 * 
+	 * @return bufferSize
+	 */
+	public int getBufferSize() {
+		return buffer.length;
+	}
 }

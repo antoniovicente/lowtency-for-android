@@ -4,6 +4,7 @@
 package com.antoniovm.lowtency.net;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
@@ -11,6 +12,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+
+import com.antoniovm.lowtency.core.StreamHeader;
 
 /**
  * @author Antonio Vicente Martin
@@ -63,15 +66,44 @@ public class NetworkServer {
 	}
 
 	/**
+	 * Waits for a new connection request, adds the new socket to the clients
+	 * list and returns it
 	 * 
+	 * @return neClient
 	 */
-	public void accept() {
+	public Socket accept() {
+		Socket newClient = null;
 		try {
-			Socket newClient = serverSocket.accept();
+			newClient = serverSocket.accept();
 			clients.add(newClient);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return newClient;
 
+	}
+
+	/**
+	 * Sends the stream header to the specified socket
+	 * 
+	 * @param streamHeader
+	 */
+	public void sendHeader(Socket socket, StreamHeader streamHeader) {
+		OutputStream os;
+		try {
+			os = socket.getOutputStream();
+			os.write(streamHeader.getSerialized());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Waits for a new client and sends the stream header to it
+	 */
+	public void waitForNewClent(StreamHeader streamHeader) {
+		Socket newClient = accept();
+		sendHeader(newClient, streamHeader);
 	}
 }

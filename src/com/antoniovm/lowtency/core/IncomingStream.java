@@ -76,6 +76,8 @@ public class IncomingStream implements Runnable {
 			tearDown();
 		}
 
+		StreamHeader streamHeader = receiver.receiveHeader();
+
 		audioOutputManager.play();
 
 		running = true;

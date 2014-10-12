@@ -62,8 +62,10 @@ public class OutcomingStream implements Runnable {
 	@Override
 	public void run() {
 		running = true;
+
+		StreamHeader streamHeader = new StreamHeader(audioInputManager.getBufferSize());
 		
-		sender.accept();
+		sender.waitForNewClent(streamHeader);
 
 		while (running) {
 			audioInputManager.read1Synchronized6BitMono();
