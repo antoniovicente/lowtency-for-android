@@ -25,7 +25,6 @@ public class IncomingStream implements Runnable {
 	public IncomingStream(String host, int port) {
 		this.receiver = new NetworkClient();
 		this.audioOutputManager = new AudioOutputManager();
-		this.thread = new Thread(this);
 		this.running = false;
 		this.host = host;
 		this.port = port;

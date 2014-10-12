@@ -5,7 +5,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketException;
 
 
 /**
@@ -22,15 +21,10 @@ public class NetworkClient {
 	 * 
 	 */
 	public NetworkClient() {
-		try {
-			this.socket = new Socket();
-			this.datagramSocket = new DatagramSocket(socket.getLocalPort());
-			this.datagramSocket.setReuseAddress(true);
-		} catch (SocketException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+		this.socket = new Socket();
+		this.datagramPacket = new DatagramPacket(new byte[1024], 1024);
+
 	}
 
 	/**
@@ -59,7 +53,9 @@ public class NetworkClient {
 		}
 
 		try {
-			socket.connect(new InetSocketAddress(host, port));
+			this.socket.connect(new InetSocketAddress(host, port));
+			this.datagramSocket = new DatagramSocket(socket.getLocalPort());
+			this.datagramSocket.setReuseAddress(true);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;

@@ -12,19 +12,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antoniovm.lowtency.audio.AudioInputManager;
+import com.antoniovm.lowtency.core.IncomingStream;
 import com.antoniovm.lowtency.core.OutcomingStream;
 import com.antoniovm.lowtency.net.NetworkClient;
 
 public class MainActivity extends Activity {
 	
-	private OutcomingStream streamManager;
+	private OutcomingStream outcomingStream;
+	private IncomingStream incomingStream;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		streamManager = new OutcomingStream();
+		outcomingStream = new OutcomingStream();
+		outcomingStream.startThread();
+		incomingStream = new IncomingStream("localhost", 3333);
 
 		final TextView ip = (TextView) findViewById(R.id.tvIp);
 
@@ -34,18 +38,18 @@ public class MainActivity extends Activity {
 				+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 		;
 
-		streamManager = new OutcomingStream();
-		streamManager.startThread();
+
 
 		final AudioInputManager audioInputManager = new AudioInputManager();
 
 		Button record = (Button) findViewById(R.id.bReadFromMic);
 		record.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if (!streamManager.isStreaming()) {
-					streamManager.startStreaming();
+				if (!outcomingStream.isStreaming()) {
+					outcomingStream.startStreaming();
+					incomingStream.startThread();
 				} else {
-					streamManager.stopStreaming();
+					outcomingStream.stopStreaming();
 				}
 
 			};

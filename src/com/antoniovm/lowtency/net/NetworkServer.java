@@ -27,7 +27,7 @@ public class NetworkServer {
 	 * 
 	 */
 	public NetworkServer(int port) {
-		this.datagramPacket = new DatagramPacket(new byte[1], 1);
+		this.datagramPacket = new DatagramPacket(new byte[100], 100);
 		this.clients = new ArrayList<Socket>();
 
 		try {
