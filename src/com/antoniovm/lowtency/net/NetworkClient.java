@@ -1,11 +1,13 @@
 package com.antoniovm.lowtency.net;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+import com.antoniovm.lowtency.core.StreamHeader;
 
 /**
  * @author Antonio Vicente Martin
@@ -16,15 +18,14 @@ public class NetworkClient {
 	private Socket socket;
 	private DatagramSocket datagramSocket;
 	private DatagramPacket datagramPacket;
+	private StreamHeader streamHeader;
 
 	/**
 	 * 
 	 */
 	public NetworkClient() {
-
+		this.streamHeader = new StreamHeader();
 		this.socket = new Socket();
-		this.datagramPacket = new DatagramPacket(new byte[1024], 1024);
-
 	}
 
 	/**
@@ -38,6 +39,32 @@ public class NetworkClient {
 		}
 
 		return datagramPacket.getData();
+	}
+
+	/**
+	 * Receives and returns the header information about the stream that is
+	 * going to be received
+	 * 
+	 * @return streamHeader The header information of the stream
+	 */
+	public StreamHeader receiveHeader() {
+		byte[] serializedHeader = new byte[4];
+
+		try {
+			InputStream is = socket.getInputStream();
+			is.read(serializedHeader);
+			is.close();
+			StreamHeader.buildFromSerialized(serializedHeader, streamHeader);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		int bufferSize = streamHeader.getBufferSize();
+		this.datagramPacket = new DatagramPacket(new byte[bufferSize], bufferSize);
+
+		return streamHeader;
+
 	}
 
 	/**
