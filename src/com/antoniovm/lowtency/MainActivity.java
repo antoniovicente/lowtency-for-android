@@ -12,19 +12,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antoniovm.lowtency.audio.AudioInputManager;
-import com.antoniovm.lowtency.core.StreamManager;
-import com.antoniovm.lowtency.net.StreamReceiver;
+import com.antoniovm.lowtency.core.OutcomingStream;
+import com.antoniovm.lowtency.net.NetworkClient;
 
 public class MainActivity extends Activity {
 	
-	private StreamManager streamManager;
+	private OutcomingStream streamManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		streamManager = new StreamManager();
+		streamManager = new OutcomingStream();
 
 		final TextView ip = (TextView) findViewById(R.id.tvIp);
 
@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
 				+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 		;
 
-		streamManager = new StreamManager();
+		streamManager = new OutcomingStream();
 		streamManager.startThread();
 
 		final AudioInputManager audioInputManager = new AudioInputManager();
@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (Pattern.matches(ipregex, ip.getText())) {
-					Intent intent = new Intent(MainActivity.this, StreamReceiver.class);
+					Intent intent = new Intent(MainActivity.this, NetworkClient.class);
 					Bundle bundle = new Bundle();
 					bundle.putString("host", ip.getText().toString());
 					intent.putExtras(bundle);

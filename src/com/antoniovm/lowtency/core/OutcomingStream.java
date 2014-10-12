@@ -4,25 +4,30 @@
 package com.antoniovm.lowtency.core;
 
 import com.antoniovm.lowtency.audio.AudioInputManager;
-import com.antoniovm.lowtency.net.StreamSender;
+import com.antoniovm.lowtency.net.NetworkServer;
 
 /**
+ * This class handles the outcoming stream read from audio input device, ands
+ * sends it to the clients connected
+ * 
  * @author Antonio Vicente Martin
- *
+ * 
  */
-public class StreamManager implements Runnable {
+public class OutcomingStream implements Runnable {
+
+	private static int DEFAULT_PORT = 3333;
 
 	private AudioInputManager audioInputManager;
-	private StreamSender sender;
+	private NetworkServer sender;
 	private Thread thread;
 	private boolean running;
 	
 	/**
 	 * 
 	 */
-	public StreamManager() {
+	public OutcomingStream() {
 		this.audioInputManager = new AudioInputManager();
-		this.sender = new StreamSender(audioInputManager.getData());
+		this.sender = new NetworkServer(DEFAULT_PORT);
 	}
 	
 	/**
@@ -60,7 +65,7 @@ public class StreamManager implements Runnable {
 		
 		while (running) {
 			audioInputManager.read1Synchronized6BitMono();
-			sender.sendUDP();
+			sender.sendBroadcast(audioInputManager.getData());
 		}
 
 		this.thread = null;
@@ -75,14 +80,14 @@ public class StreamManager implements Runnable {
 	}
 
 	/**
-	 * 
+	 * Starts recording from input device
 	 */
 	public void startStreaming() {
 		audioInputManager.startRecording();
 	}
 
 	/**
-	 * 
+	 * Stops recording fron input device
 	 */
 	public void stopStreaming() {
 		audioInputManager.stopRecording();

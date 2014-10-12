@@ -15,18 +15,16 @@ public class AudioOutputManager  {
 	private AudioTrack audioTrack;
 	private byte [] samplesBuffer;
 
-	public AudioOutputManager(byte [] samplesBuffer) {
-		this(AudioIOManger.DEFAULT_SAMPLERATE, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT,
-				samplesBuffer);
+	public AudioOutputManager() {
+		this(AudioIOManger.DEFAULT_SAMPLERATE, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT);
 	}
 
-	public AudioOutputManager(int sampleRate, int channelFormat, int encodingFormat,
- byte[] samplesBuffer) {
-		int tamanoMinimoDeBuffer = AudioTrack.getMinBufferSize(sampleRate, channelFormat, encodingFormat);
+	public AudioOutputManager(int sampleRate, int channelFormat, int encodingFormat) {
+		int minimumBufferSize = AudioTrack.getMinBufferSize(sampleRate, channelFormat, encodingFormat);
 
 		this.audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate, channelFormat, encodingFormat,
-				tamanoMinimoDeBuffer, AudioTrack.MODE_STREAM);
-		this.samplesBuffer = samplesBuffer;
+				minimumBufferSize, AudioTrack.MODE_STREAM);
+		this.samplesBuffer = new byte[minimumBufferSize];
 
 	}
 
