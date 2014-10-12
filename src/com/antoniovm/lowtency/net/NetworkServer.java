@@ -6,6 +6,7 @@ package com.antoniovm.lowtency.net;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -26,10 +27,13 @@ public class NetworkServer {
 	 * 
 	 */
 	public NetworkServer(int port) {
-		this.datagramPacket = new DatagramPacket(null, 0);
+		this.datagramPacket = new DatagramPacket(new byte[1], 1);
+		this.clients = new ArrayList<Socket>();
 
 		try {
-			this.serverSocket = new ServerSocket(port);
+			this.serverSocket = new ServerSocket();
+			this.serverSocket.setReuseAddress(true);
+			this.serverSocket.bind(new InetSocketAddress(port));
 			this.datagramSocket = new DatagramSocket();
 			this.serverSocket.setReuseAddress(true);
 		} catch (SocketException e) {

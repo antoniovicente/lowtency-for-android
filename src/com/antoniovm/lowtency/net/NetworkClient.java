@@ -36,12 +36,14 @@ public class NetworkClient {
 	/**
 	 * Receives a datagram socket from
 	 */
-	public void receiveUDP() {
+	public byte[] receiveUDP() {
 		try {
 			datagramSocket.receive(datagramPacket);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		return datagramPacket.getData();
 	}
 
 	/**
@@ -51,16 +53,19 @@ public class NetworkClient {
 	 * @param ip
 	 * @param port
 	 */
-	public void connect(String host, int port) {
+	public boolean connect(String host, int port) {
 		if (socket.isConnected()) {
-			return;
+			return false;
 		}
 
 		try {
 			socket.connect(new InetSocketAddress(host, port));
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
+
+		return true;
 	}
 
 }

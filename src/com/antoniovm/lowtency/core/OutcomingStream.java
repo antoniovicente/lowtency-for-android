@@ -63,6 +63,8 @@ public class OutcomingStream implements Runnable {
 	public void run() {
 		running = true;
 		
+		sender.accept();
+
 		while (running) {
 			audioInputManager.read1Synchronized6BitMono();
 			sender.sendBroadcast(audioInputManager.getData());
