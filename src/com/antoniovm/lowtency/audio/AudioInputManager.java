@@ -27,7 +27,7 @@ public class AudioInputManager {
 		this.recorder = new AudioRecord(MediaRecorder.AudioSource.DEFAULT, AudioIOManger.DEFAULT_SAMPLERATE,
 				AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, minBufferSize);
 
-		this.buffer = new byte[minBufferSize * AudioFormat.ENCODING_PCM_16BIT];
+		this.buffer = new byte[minBufferSize];
 		this.semaphore = new Semaphore(0);
 	}
 
