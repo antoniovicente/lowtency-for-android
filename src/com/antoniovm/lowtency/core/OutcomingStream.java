@@ -64,7 +64,7 @@ public class OutcomingStream implements Runnable {
 		running = true;
 
 		StreamHeader streamHeader = new StreamHeader(audioInputManager.getBufferSize());
-		
+
 		sender.waitForNewClient(streamHeader);
 
 		while (running) {

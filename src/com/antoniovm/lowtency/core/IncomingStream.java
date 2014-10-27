@@ -8,7 +8,9 @@ import com.antoniovm.lowtency.net.NetworkClient;
 
 /**
  * This class handles the incoming stream from internet, and routes it to the
- * audio output manager
+ * audio output manager.
+ * 
+ * To start a
  * 
  * @author Antonio Vicente Martin
  * 
@@ -96,6 +98,22 @@ public class IncomingStream implements Runnable {
 	private void tearDown() {
 		this.audioOutputManager.stop();
 		this.thread = null;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
 	}
 
 }
