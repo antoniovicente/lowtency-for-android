@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">AudioTransceiverClient</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">Lowtency for Android</string>
+    
+    <!-- Main menu -->
+    <string name="new_server">I'm a speaker</string>
+    <string name="new_client">I'm a listener</string>
+    
+    <!-- Network -->
+    <string name="s_device_ip">IP</string>
+    <string name="s_device_port">Port</string>
+    <string name="s_start">Start</string>
+    <string name="s_device_id">ID</string>
+	<string name="s_qr_connection">Connect by QR</string>
+	<string name="s_simple_config">Simple configuration</string>
+	<string name="s_advanced_config">Advanced configuration</string>
+	<string name="s_client_info">Client info</string>
+	<string name="s_server_info">Server info</string>
+	<string name="s_audio_config">Audio configuration</string>
+	<string name="s_samplerate">Samples/second:</string>
+	<string name="s_bits_per_sample">Bits/sample:</string>
+    
 
 </resources>
