@@ -19,6 +19,7 @@
 	<string name="b_disconnect">Disconnect</string>
 	<string name="b_simple_config">Simple configuration</string>
 	<string name="b_advanced_config">Advanced configuration</string>
+	<string name="b_show_information">Show information</string>
 	<string name="l_client_info">Client info</string>
 	<string name="l_server_info">Server info</string>
 	
