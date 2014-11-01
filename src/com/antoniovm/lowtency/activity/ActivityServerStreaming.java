@@ -37,6 +37,17 @@ public class ActivityServerStreaming extends Activity {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onBackPressed()
+	 */
+	@Override
+	public void onBackPressed() {
+		// Avoid the activity to be destroyed
+		moveTaskToBack(true);
+	}
+
 
 	/*
 	 * (non-Javadoc)

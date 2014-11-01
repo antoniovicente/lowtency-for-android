@@ -20,21 +20,33 @@ public class ActivityMain extends Activity {
 	}
 
 	/**
-	 * 
+	 * Innit the buttons to init each activity flow
 	 */
 	private void initButtonsActions() {
 
 		Button bServer = (Button) findViewById(R.id.bServer);
 		Button bClient = (Button) findViewById(R.id.bClient);
 
+		// Server activity flow
 		bServer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				// At first time, it must be shown the server info activity
+				// so it is called the last to be on top of activities stack
 				startActivity(new Intent(ActivityMain.this, ActivityServerStreaming.class));
 				startActivity(new Intent(ActivityMain.this, ActivityServerInfo.class));
 				finish();
+			}
+		});
 
+		// Client activity flow
+		bClient.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(ActivityMain.this, ActivityClientConnection.class));
+				finish();
 			}
 		});
 
