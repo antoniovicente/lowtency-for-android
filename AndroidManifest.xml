@@ -20,13 +20,26 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name="com.antoniovm.lowtency.MainActivity"
+            android:name="com.antoniovm.lowtency.activity.ActivityMain"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        
+        <activity 
+            android:name="com.antoniovm.lowtency.activity.ActivityServerInfo">
+        </activity>
+        <activity 
+            android:name="com.antoniovm.lowtency.activity.ActivityServerStreaming">
+        </activity>
+        <activity 
+            android:name="com.antoniovm.lowtency.activity.ActivityClientConnection">
+        </activity>
+        <activity 
+            android:name="com.antoniovm.lowtency.activity.ActivityClientStreaming">
         </activity>
         <service 
             android:name="com.antoniovm.lowtency.net.StreamReceiverceiver"

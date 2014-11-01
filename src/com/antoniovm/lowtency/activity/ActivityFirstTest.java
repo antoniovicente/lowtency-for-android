@@ -1,4 +1,4 @@
-package com.antoniovm.lowtency;
+package com.antoniovm.lowtency.activity;
 
 import java.util.regex.Pattern;
 
@@ -13,12 +13,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.antoniovm.lowtency.R;
+import com.antoniovm.lowtency.R.id;
+import com.antoniovm.lowtency.R.layout;
+import com.antoniovm.lowtency.R.menu;
 import com.antoniovm.lowtency.audio.AudioInputManager;
 import com.antoniovm.lowtency.core.IncomingStream;
 import com.antoniovm.lowtency.core.OutcomingStream;
 import com.antoniovm.lowtency.net.NetworkClient;
 
-public class MainActivity extends Activity {
+public class ActivityFirstTest extends Activity {
 	
 	private OutcomingStream outcomingStream;
 	private IncomingStream incomingStream;
@@ -66,7 +70,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (Pattern.matches(ipregex, ip.getText())) {
-					Intent intent = new Intent(MainActivity.this, NetworkClient.class);
+					Intent intent = new Intent(ActivityFirstTest.this, NetworkClient.class);
 					Bundle bundle = new Bundle();
 					// bundle.putString("host", ip.getText().toString());
 
@@ -76,7 +80,7 @@ public class MainActivity extends Activity {
 					incomingStream.startThread();
 					
 				}else{
-					Toast.makeText(MainActivity.this , "Invalid host", Toast.LENGTH_SHORT).show();
+					Toast.makeText(ActivityFirstTest.this , "Invalid host", Toast.LENGTH_SHORT).show();
 				}
 				
 			}
