@@ -12,11 +12,15 @@
     <string name="l_device_port">Port</string>
     <string name="b_start">Start</string>
     <string name="l_device_id">ID</string>
+    <string name="l_ip_example">xx.xx.xx.xx</string>
+    <string name="l_port_example">xxxx</string>
 	<string name="b_qr_connection">Connect by QR</string>
 	<string name="b_simple_config">Simple configuration</string>
 	<string name="b_advanced_config">Advanced configuration</string>
 	<string name="l_client_info">Client info</string>
 	<string name="l_server_info">Server info</string>
+	
+	<!-- Audio -->
 	<string name="b_audio_config">Audio configuration</string>
 	<string name="l_samplerate">Samples/second:</string>
 	<string name="l_bits_per_sample">Bits/sample:</string>
