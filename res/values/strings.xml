@@ -14,7 +14,8 @@
     <string name="l_device_id">ID</string>
     <string name="l_ip_example">xx.xx.xx.xx</string>
     <string name="l_port_example">xxxx</string>
-	<string name="b_qr_connection">Connect by QR</string>
+	<string name="b_qr_connect">Connect by QR</string>
+	<string name="b_connect">Connect</string>
 	<string name="b_simple_config">Simple configuration</string>
 	<string name="b_advanced_config">Advanced configuration</string>
 	<string name="l_client_info">Client info</string>
