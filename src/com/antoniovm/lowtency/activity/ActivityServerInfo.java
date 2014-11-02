@@ -29,7 +29,6 @@ public class ActivityServerInfo extends Activity {
 			@Override
 			public void onClick(View v) {
 				finish();
-
 			}
 		});
 
