@@ -36,13 +36,20 @@
             <include layout="@layout/i_ip_port_info" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/bDisconnect"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="#660000"
-            android:text="@string/b_disconnect" />
+            android:layout_height="match_parent"
+            android:gravity="bottom" >
+
+            <Button
+                android:id="@+id/bDisconnect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#aa0000"
+                android:text="@string/b_disconnect"
+                android:textColor="#ffffff" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
