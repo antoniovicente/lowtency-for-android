@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="grey_material_background">#303030</color>
+    <color name="grey_material_background_button">#5a595b</color>
+    <color name="grey_material_text">#a9a9a9</color>
+    <color name="grey_material_title_bar">#212121</color>
+    <color name="red_disconnect">#aa0000</color>
+</resources>
