@@ -8,15 +8,21 @@ import android.view.View;
 import android.widget.Button;
 
 import com.antoniovm.lowtency.R;
+import com.antoniovm.lowtency.core.OutcomingStream;
 
 public class ActivityServerStreaming extends Activity {
 	
+	private OutcomingStream outcomingStream;
+	private Intent intent;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.a_server_streaming);
 
 		init();
+
+		showServerInfoActivity();
 	}
 
 	/**
@@ -24,13 +30,32 @@ public class ActivityServerStreaming extends Activity {
 	 */
 	private void init() {
 
+		initData();
+		initViews();
+	}
+
+	/**
+	 * 
+	 */
+	private void initData() {
+		intent = new Intent(this, ActivityServerInfo.class);
+
+		outcomingStream = new OutcomingStream();
+		outcomingStream.startStreaming();
+	}
+
+	/**
+	 * 
+	 */
+	private void initViews() {
+
 		Button bShowInfo = (Button) findViewById(R.id.bInfo);
 
 		bShowInfo.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(ActivityServerStreaming.this, ActivityServerInfo.class));
+				showServerInfoActivity();
 
 			}
 		});
@@ -46,6 +71,18 @@ public class ActivityServerStreaming extends Activity {
 	public void onBackPressed() {
 		// Avoid the activity to be destroyed
 		moveTaskToBack(true);
+	}
+
+	/**
+	 * 
+	 */
+	private void showServerInfoActivity() {
+		// First time this activity is created, the config activity must me
+		// shown
+		intent.putExtra("IP", outcomingStream.getHost());
+		intent.putExtra("PORT", outcomingStream.getPort());
+		startActivity(intent);
+
 	}
 
 

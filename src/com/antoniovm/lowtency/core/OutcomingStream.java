@@ -97,4 +97,19 @@ public class OutcomingStream implements Runnable {
 		audioInputManager.stopRecording();
 	}
 
+	/**
+	 * 
+	 */
+	public int getPort() {
+		return sender.getPort();
+
+	}
+
+	/**
+	 * @return
+	 */
+	public String getHost() {
+		return sender.getIp();
+	}
+
 }

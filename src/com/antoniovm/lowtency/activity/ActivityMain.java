@@ -32,10 +32,7 @@ public class ActivityMain extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// At first time, it must be shown the server info activity
-				// so it is called the last to be on top of activities stack
 				startActivity(new Intent(ActivityMain.this, ActivityServerStreaming.class));
-				startActivity(new Intent(ActivityMain.this, ActivityServerInfo.class));
 				finish();
 			}
 		});

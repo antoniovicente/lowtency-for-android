@@ -1,15 +1,20 @@
 package com.antoniovm.lowtency.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.antoniovm.lowtency.R;
 
 public class ActivityServerInfo extends Activity {
 	
+	private String ip;
+	private int port;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -23,6 +28,22 @@ public class ActivityServerInfo extends Activity {
 	 */
 	private void init() {
 
+		initData();
+		initViews();
+
+	}
+
+	/**
+	 * 
+	 */
+	private void initViews() {
+		
+		EditText etIp = (EditText)findViewById(R.id.etIP);
+		etIp.setText(this.ip);
+		EditText etPort = (EditText)findViewById(R.id.etPort);
+		etPort.setText(port + "");
+		
+		
 		LinearLayout lServerInfoContainer = (LinearLayout) findViewById(R.id.lServerInfoContainer);
 		lServerInfoContainer.setOnClickListener(new View.OnClickListener() {
 
@@ -32,18 +53,27 @@ public class ActivityServerInfo extends Activity {
 			}
 		});
 
+
 	}
 
+	/**
+	 * 
+	 */
+	private void initData() {
+		Intent incomingIntent = getIntent();
+		ip = incomingIntent.getStringExtra("IP");
+		port = incomingIntent.getIntExtra("PORT", 0);
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see android.app.Activity#onResume()
+	 * @see android.app.Activity#onPause()
 	 */
 	@Override
-	protected void onResume() {
-		super.onResume();
-
+	protected void onPause() {
+		super.onPause();
+		finish();
 	}
 
 	@Override

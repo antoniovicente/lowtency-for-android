@@ -7,11 +7,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import com.antoniovm.lowtency.core.StreamHeader;
 
@@ -105,5 +108,38 @@ public class NetworkServer {
 	public void waitForNewClient(StreamHeader streamHeader) {
 		Socket newClient = accept();
 		sendHeader(newClient, streamHeader);
+	}
+
+	/**
+	 * @return
+	 */
+	public int getPort() {
+		return serverSocket.getLocalPort();
+	}
+
+	/**
+	 * 
+	 * @return Host IP
+	 */
+	public String getIp() {
+
+		try {
+			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+				NetworkInterface intf = en.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+					InetAddress inetAddress = enumIpAddr.nextElement();
+					if (!inetAddress.isLoopbackAddress()) {
+						String ip = inetAddress.getHostAddress();
+						int tokenIndex = ip.indexOf('%');
+						ip = ip.substring(0, tokenIndex);
+						return ip;
+					}
+				}
+			}
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 }
