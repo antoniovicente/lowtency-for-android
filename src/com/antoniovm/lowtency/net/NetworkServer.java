@@ -131,7 +131,10 @@ public class NetworkServer {
 					if (!inetAddress.isLoopbackAddress()) {
 						String ip = inetAddress.getHostAddress();
 						int tokenIndex = ip.indexOf('%');
-						ip = ip.substring(0, tokenIndex);
+						if (tokenIndex > 0) {
+							// IPv6
+							ip = "[" + ip.substring(0, tokenIndex) + "]";
+						}
 						return ip;
 					}
 				}
@@ -142,4 +145,6 @@ public class NetworkServer {
 		return null;
 
 	}
+
+
 }

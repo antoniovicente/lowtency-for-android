@@ -6,14 +6,19 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.antoniovm.lowtency.R;
+import com.antoniovm.lowtency.util.QRManager;
 
 public class ActivityServerInfo extends Activity {
 	
+	private int DEFAULT_QR_SIZE = 400;
+
 	private String ip;
 	private int port;
+	private QRManager qrManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +26,7 @@ public class ActivityServerInfo extends Activity {
 		setContentView(R.layout.a_server_connection_info);
 
 		init();
+		
 	}
 
 	/**
@@ -53,6 +59,10 @@ public class ActivityServerInfo extends Activity {
 			}
 		});
 
+		String qrString = ip + ":" + port;
+		ImageView ivQR = (ImageView) findViewById(R.id.ivQR);
+		ivQR.setImageBitmap(qrManager.encode(qrString, DEFAULT_QR_SIZE, DEFAULT_QR_SIZE));
+
 
 	}
 
@@ -63,6 +73,8 @@ public class ActivityServerInfo extends Activity {
 		Intent incomingIntent = getIntent();
 		ip = incomingIntent.getStringExtra("IP");
 		port = incomingIntent.getIntExtra("PORT", 0);
+
+		this.qrManager = new QRManager();
 	}
 
 	/*
