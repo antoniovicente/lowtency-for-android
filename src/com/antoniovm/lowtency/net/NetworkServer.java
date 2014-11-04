@@ -137,7 +137,7 @@ public class NetworkServer {
 						int tokenIndex = ip.indexOf('%');
 						if (tokenIndex > 0) {
 							// IPv6
-							ip = "[" + ip.substring(0, tokenIndex) + "]";
+							ip = "[" + ip.substring(0, tokenIndex) + "%4]";
 						}
 						return ip;
 					}

@@ -8,9 +8,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.antoniovm.lowtency.R;
+import com.antoniovm.lowtency.core.IncomingStream;
 
 public class ActivityClientStreaming extends Activity {
 	
+	private IncomingStream incomingStream;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -23,6 +26,27 @@ public class ActivityClientStreaming extends Activity {
 	 * 
 	 */
 	private void init() {
+		initData();
+		initViews();
+
+	}
+
+	/**
+	 * 
+	 */
+	private void initData() {
+		Intent incomingIntent = getIntent();
+		String ip = incomingIntent.getStringExtra("IP");
+		int port = incomingIntent.getIntExtra("PORT", 0);
+
+		this.incomingStream = new IncomingStream(ip, port);
+		incomingStream.startThread();
+	}
+
+	/**
+	 * 
+	 */
+	private void initViews() {
 
 		Button bDisconnect = (Button) findViewById(R.id.bDisconnect);
 
@@ -32,12 +56,10 @@ public class ActivityClientStreaming extends Activity {
 			public void onClick(View v) {
 				startActivity(new Intent(ActivityClientStreaming.this, ActivityMain.class));
 				finish();
-
 			}
 		});
-
-
 	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -67,6 +89,17 @@ public class ActivityClientStreaming extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onDestroy()
+	 */
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		this.incomingStream.stop();
 	}
 
 }

@@ -11,7 +11,8 @@ import com.antoniovm.lowtency.R;
 
 public class ActivityClientConnection extends Activity {
 	
-	private String uri;
+	private String ip;
+	private String port;
 	private Intent intent;
 
 	@Override
@@ -106,9 +107,10 @@ public class ActivityClientConnection extends Activity {
 		if (requestCode == 0) {
 			switch (resultCode) {
 			case RESULT_OK:
-				uri = intent.getStringExtra("SCAN_RESULT");
+				String out = intent.getStringExtra("SCAN_RESULT");
 				String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
 				// Validate input qr
+				parseIpPort(out);
 				startClientStreamActivity();
 				break;
 			case RESULT_CANCELED:
@@ -121,8 +123,25 @@ public class ActivityClientConnection extends Activity {
 	/**
 	 * 
 	 */
+	private void parseIpPort(String input) {
+		int index = input.indexOf(']');
+		if (index > 0) {
+			index++;
+		} else {
+			index = input.indexOf(':');
+		}
+
+		ip = input.substring(0, index);
+		port = input.substring(index, input.length());
+
+	}
+
+	/**
+	 * 
+	 */
 	private void startClientStreamActivity() {
-		intent.putExtra("URI", uri);
+		intent.putExtra("IP", ip);
+		intent.putExtra("PORT", port);
 		startActivity(intent);
 		finish();
 	}
