@@ -16,6 +16,10 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import com.antoniovm.lowtency.core.StreamHeader;
 
 /**
@@ -146,5 +150,16 @@ public class NetworkServer {
 
 	}
 
+	/**
+	 * 
+	 */
+	public static boolean isDeviceConnectedToAWiFiNetwork(Context context) {
+		ConnectivityManager conMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
+		NetworkInfo i = conMgr.getActiveNetworkInfo();
+
+		// Not null when there is a wifi connection
+		return i != null && i.isConnected() && i.isAvailable();
+
+	}
 }

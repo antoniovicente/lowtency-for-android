@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.antoniovm.lowtency.R;
 import com.antoniovm.lowtency.core.OutcomingStream;
+import com.antoniovm.lowtency.net.NetworkServer;
 
 public class ActivityServerStreaming extends Activity {
 	
@@ -19,6 +21,12 @@ public class ActivityServerStreaming extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.a_server_streaming);
+
+		if (!checkPreconditions()) {
+			startActivity(new Intent(this, ActivityMain.class));
+			finish();
+			return;
+		}
 
 		init();
 
@@ -38,10 +46,12 @@ public class ActivityServerStreaming extends Activity {
 	 * 
 	 */
 	private void initData() {
-		intent = new Intent(this, ActivityServerInfo.class);
+
 
 		outcomingStream = new OutcomingStream();
+
 		outcomingStream.startStreaming();
+		intent = new Intent(this, ActivityServerInfo.class);
 	}
 
 	/**
@@ -59,6 +69,19 @@ public class ActivityServerStreaming extends Activity {
 
 			}
 		});
+
+	}
+
+	/**
+	 * 
+	 */
+	public boolean checkPreconditions() {
+		if (!NetworkServer.isDeviceConnectedToAWiFiNetwork(this)) {
+			Toast.makeText(this, getString(R.string.l_not_connected_to_internet), Toast.LENGTH_LONG).show();
+			return false;
+		}
+
+		return true;
 
 	}
 
