@@ -21,29 +21,36 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.antoniovm.lowtency.core.StreamHeader;
+import com.antoniovm.lowtency.event.ConnectionListener;
 
 /**
  * @author Antonio Vicente Martin
  *
  */
-public class NetworkServer {
+public class NetworkServer implements Runnable {
 
 	private ServerSocket serverSocket;
 	private DatagramSocket datagramSocket;
 	private DatagramPacket datagramPacket;
 	private ArrayList<Socket> clients;
+	private boolean running;
+	private Thread thread;
+	private StreamHeader streamHeader;
+	private ArrayList<ConnectionListener> connectionListeners;
 
 	/**
 	 * 
 	 */
-	public NetworkServer(int port) {
+	public NetworkServer(StreamHeader streamHeader) {
 		this.datagramPacket = new DatagramPacket(new byte[100], 100);
 		this.clients = new ArrayList<Socket>();
+		this.streamHeader = streamHeader;
+		this.connectionListeners = new ArrayList<ConnectionListener>();
 
 		try {
 			this.serverSocket = new ServerSocket();
 			this.serverSocket.setReuseAddress(true);
-			this.serverSocket.bind(new InetSocketAddress(port));
+			this.serverSocket.bind(new InetSocketAddress(0));
 			this.datagramSocket = new DatagramSocket();
 			this.serverSocket.setReuseAddress(true);
 		} catch (SocketException e) {
@@ -51,6 +58,13 @@ public class NetworkServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 
+	 */
+	public void addConnectionListener(ConnectionListener connectionListener) {
+		connectionListeners.add(connectionListener);
 	}
 
 	/**
@@ -82,6 +96,9 @@ public class NetworkServer {
 		Socket newClient = null;
 		try {
 			newClient = serverSocket.accept();
+			if (clients.size() < 1) {
+				fireFirstClientConnection();
+			}
 			clients.add(newClient);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -161,5 +178,80 @@ public class NetworkServer {
 		// Not null when there is a wifi connection
 		return i != null && i.isConnected() && i.isAvailable();
 
+	}
+
+	/**
+	 * @param running
+	 *            the running to set
+	 */
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+
+	/**
+	 * 
+	 * Starts a new Thread
+	 * 
+	 * @return true if it could be started, false otherwise
+	 */
+	public boolean startThread() {
+		if (this.thread == null) {
+			this.thread = new Thread(this);
+			this.thread.start();
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Makes a request to the thread to stop
+	 */
+	public void stop() {
+		running = false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Runnable#run()
+	 */
+	@Override
+	public void run() {
+		running = true;
+		while (running) {
+			waitForNewClient(streamHeader);
+		}
+
+		this.thread = null;
+	}
+
+	/**
+	 * 
+	 */
+	private void fireFirstClientConnection() {
+		for (int i = 0; i < connectionListeners.size(); i++) {
+			connectionListeners.get(i).onFirstClientConnection();
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private void fireLastClientDisconnection() {
+		for (int i = 0; i < connectionListeners.size(); i++) {
+			connectionListeners.get(i).onLastClientDisconnection();
+		}
+	}
+
+	/**
+	 * 
+	 */
+	public void removeClient(Socket socket) {
+		clients.remove(socket);
+		if (clients.size() < 1) {
+			fireLastClientDisconnection();
+		}
 	}
 }

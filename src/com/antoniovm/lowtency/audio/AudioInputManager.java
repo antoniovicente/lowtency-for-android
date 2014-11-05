@@ -64,8 +64,8 @@ public class AudioInputManager {
 	 */
 	public synchronized boolean stopRecording() {
 		if (isRecording()) {
-			waitForStart();
 			recorder.stop();
+			waitForStart();
 			return true;
 		}
 

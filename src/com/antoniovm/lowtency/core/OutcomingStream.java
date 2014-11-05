@@ -4,6 +4,7 @@
 package com.antoniovm.lowtency.core;
 
 import com.antoniovm.lowtency.audio.AudioInputManager;
+import com.antoniovm.lowtency.event.ConnectionListener;
 import com.antoniovm.lowtency.net.NetworkServer;
 
 /**
@@ -13,12 +14,13 @@ import com.antoniovm.lowtency.net.NetworkServer;
  * @author Antonio Vicente Martin
  * 
  */
-public class OutcomingStream implements Runnable {
+public class OutcomingStream implements Runnable, ConnectionListener {
 
 	private static int DEFAULT_PORT = 3333;
 
 	private AudioInputManager audioInputManager;
 	private NetworkServer sender;
+	private StreamHeader streamHeader;
 	private Thread thread;
 	private boolean running;
 	
@@ -27,7 +29,8 @@ public class OutcomingStream implements Runnable {
 	 */
 	public OutcomingStream() {
 		this.audioInputManager = new AudioInputManager();
-		this.sender = new NetworkServer(DEFAULT_PORT);
+		this.streamHeader = new StreamHeader(audioInputManager.getBufferSize());
+		this.sender = new NetworkServer(streamHeader);
 	}
 	
 	/**
@@ -63,9 +66,8 @@ public class OutcomingStream implements Runnable {
 	public void run() {
 		running = true;
 
-		StreamHeader streamHeader = new StreamHeader(audioInputManager.getBufferSize());
-
-		sender.waitForNewClient(streamHeader);
+		sender.addConnectionListener(this);
+		sender.startThread();
 
 		while (running) {
 			audioInputManager.read1Synchronized6BitMono();
@@ -110,6 +112,30 @@ public class OutcomingStream implements Runnable {
 	 */
 	public String getHost() {
 		return sender.getIp();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.antoniovm.lowtency.event.ConnectionListener#onFirstClientConnection()
+	 */
+	@Override
+	public void onFirstClientConnection() {
+		audioInputManager.startRecording();
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.antoniovm.lowtency.event.ConnectionListener#onFirstClientDisconnection
+	 * ()
+	 */
+	@Override
+	public void onLastClientDisconnection() {
+		audioInputManager.stopRecording();
 	}
 
 }

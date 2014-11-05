@@ -50,7 +50,7 @@ public class ActivityServerStreaming extends Activity {
 
 		outcomingStream = new OutcomingStream();
 
-		outcomingStream.startStreaming();
+		outcomingStream.startThread();
 		intent = new Intent(this, ActivityServerInfo.class);
 	}
 
