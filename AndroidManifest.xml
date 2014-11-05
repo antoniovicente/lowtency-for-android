@@ -39,6 +39,14 @@
         </activity>
         <activity 
             android:name="com.antoniovm.lowtency.activity.ActivityClientStreaming">
+            
+            <intent-filter>
+              <action android:name="android.intent.action.VIEW" />
+              <action android:name="com.example.intentdemo.LAUNCH" />
+              <category android:name="android.intent.category.DEFAULT" />
+              <data android:scheme="lowtency" />
+           </intent-filter>
+            
         </activity>
         <service 
             android:name="com.antoniovm.lowtency.net.StreamReceiverceiver"

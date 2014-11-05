@@ -59,7 +59,7 @@ public class ActivityServerInfo extends Activity {
 			}
 		});
 
-		String qrString = ip + ":" + port;
+		String qrString = getURI(ip, port);
 		ImageView ivQR = (ImageView) findViewById(R.id.ivQR);
 		ivQR.setImageBitmap(qrManager.encode(qrString, DEFAULT_QR_SIZE, DEFAULT_QR_SIZE));
 
@@ -93,6 +93,13 @@ public class ActivityServerInfo extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	/**
+	 * 
+	 */
+	private String getURI(String ip, int port) {
+		return getString(R.string.l_lowtency) + "://" + ip + ":" + port;
 	}
 
 }

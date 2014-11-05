@@ -1,5 +1,8 @@
 package com.antoniovm.lowtency.activity;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +15,7 @@ import com.antoniovm.lowtency.R;
 public class ActivityClientConnection extends Activity {
 	
 	private String ip;
-	private String port;
+	private int port;
 	private Intent intent;
 
 	@Override
@@ -110,8 +113,9 @@ public class ActivityClientConnection extends Activity {
 				String out = intent.getStringExtra("SCAN_RESULT");
 				String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
 				// Validate input qr
-				parseIpPort(out);
-				startClientStreamActivity();
+				if (isValidURI(out)) {
+					startClientStreamActivity();
+				}
 				break;
 			case RESULT_CANCELED:
 			default:
@@ -123,16 +127,24 @@ public class ActivityClientConnection extends Activity {
 	/**
 	 * 
 	 */
-	private void parseIpPort(String input) {
-		int index = input.indexOf(']');
-		if (index > 0) {
-			index++;
-		} else {
-			index = input.indexOf(':');
+	private boolean isValidURI(String input) {
+		URI uri = null;
+		try {
+			uri = new URI(input);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
 		}
 
-		ip = input.substring(0, index);
-		port = input.substring(index, input.length());
+		String lLowtency = getString(R.string.l_lowtency);
+
+		if (!uri.getScheme().equals(lLowtency)) {
+			return false;
+		}
+
+		ip = uri.getHost();
+		port = uri.getPort();
+
+		return true;
 
 	}
 

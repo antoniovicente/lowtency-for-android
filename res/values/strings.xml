@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Lowtency for Android</string>
+    <string name="l_lowtency">lowtency</string>
     
     <!-- Main menu -->
     <string name="b_new_server">I\'m a speaker</string>
