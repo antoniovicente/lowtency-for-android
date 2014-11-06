@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.antoniovm.lowtency.R;
 import com.antoniovm.lowtency.core.IncomingStream;
@@ -13,6 +14,8 @@ import com.antoniovm.lowtency.core.IncomingStream;
 public class ActivityClientStreaming extends Activity {
 	
 	private IncomingStream incomingStream;
+	private String ip;
+	private int port;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +39,8 @@ public class ActivityClientStreaming extends Activity {
 	 */
 	private void initData() {
 		Intent incomingIntent = getIntent();
-		String ip = incomingIntent.getStringExtra("IP");
-		int port = incomingIntent.getIntExtra("PORT", 0);
+		ip = incomingIntent.getStringExtra("IP");
+		port = incomingIntent.getIntExtra("PORT", 0);
 
 		this.incomingStream = new IncomingStream(ip, port);
 		incomingStream.startThread();
@@ -47,6 +50,11 @@ public class ActivityClientStreaming extends Activity {
 	 * 
 	 */
 	private void initViews() {
+
+		TextView tvIp = (TextView) findViewById(R.id.tvIPField);
+		tvIp.setText(this.ip);
+		TextView tvPort = (TextView) findViewById(R.id.tvPortField);
+		tvPort.setText(port + "");
 
 		Button bDisconnect = (Button) findViewById(R.id.bDisconnect);
 

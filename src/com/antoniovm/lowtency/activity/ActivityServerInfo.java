@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.antoniovm.lowtency.R;
 import com.antoniovm.lowtency.util.QRManager;
@@ -44,11 +44,10 @@ public class ActivityServerInfo extends Activity {
 	 */
 	private void initViews() {
 		
-		EditText etIp = (EditText)findViewById(R.id.etIP);
-		etIp.setText(this.ip);
-		EditText etPort = (EditText)findViewById(R.id.etPort);
-		etPort.setText(port + "");
-		
+		TextView tvIp = (TextView) findViewById(R.id.tvIPField);
+		tvIp.setText(this.ip);
+		TextView tvPort = (TextView) findViewById(R.id.tvPortField);
+		tvPort.setText(port + "");
 		
 		LinearLayout lServerInfoContainer = (LinearLayout) findViewById(R.id.lServerInfoContainer);
 		lServerInfoContainer.setOnClickListener(new View.OnClickListener() {

@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:id="@+id/lServerInfoContainer" >
     
-    <include layout="@layout/i_ip_port_input"/>
+    <include layout="@layout/i_ip_port_info"/>
 
     <ImageView
         android:id="@+id/ivQR"
