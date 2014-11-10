@@ -5,6 +5,8 @@ package com.antoniovm.lowtency.net;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -19,6 +21,7 @@ import java.util.Enumeration;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 
 import com.antoniovm.lowtency.core.StreamHeader;
 import com.antoniovm.lowtency.event.ConnectionListener;
@@ -176,7 +179,28 @@ public class NetworkServer implements Runnable {
 		NetworkInfo i = conMgr.getActiveNetworkInfo();
 
 		// Not null when there is a wifi connection
-		return i != null && i.isConnected() && i.isAvailable();
+		if (i == null) {
+
+			WifiManager wifiMgr = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+
+			Method method = null;
+			try {
+				method = wifiMgr.getClass().getDeclaredMethod("isWifiApEnabled");
+				method.setAccessible(true);
+				return (Boolean) method.invoke(wifiMgr);
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		return i.isConnected() && i.isAvailable();
 
 	}
 
