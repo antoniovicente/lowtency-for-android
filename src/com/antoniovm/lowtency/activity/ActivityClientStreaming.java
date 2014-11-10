@@ -110,4 +110,14 @@ public class ActivityClientStreaming extends Activity {
 		this.incomingStream.stop();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onSaveInstanceState(android.os.Bundle)
+	 */
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+	}
+
 }
