@@ -141,4 +141,14 @@ public class AudioInputManager {
 	public int getBufferSize() {
 		return buffer.length;
 	}
+
+	/**
+	 * Returns the number of samples per buffer
+	 * 
+	 * @return numberOfSamplesPerBuffer
+	 */
+	public int getNumberOfSamplesPerBuffer() {
+		// Buffer length / number of bytes per sample
+		return buffer.length / 2;
+	}
 }

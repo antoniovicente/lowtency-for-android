@@ -9,11 +9,17 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.antoniovm.lowtency.event.DataAvailableListener;
+import com.antoniovm.lowtency.util.ByteConverter;
+import com.antoniovm.lowtency.util.MathUtils;
+
 /**
  * @author Antonio Vicente Martin
  *
  */
-public class WaveCanvas extends View {
+public class WaveCanvas extends View implements DataAvailableListener {
+
+	private double[] normalizedBuffer;
 
 	private Paint defaultPaint;
 
@@ -36,6 +42,21 @@ public class WaveCanvas extends View {
 
 	}
 
+	/**
+	 * @param normalizedBuffer
+	 *            the normalizedBuffer to set
+	 */
+	public void setNormalizedBuffer(double[] normalizedBuffer) {
+		this.normalizedBuffer = normalizedBuffer;
+	}
+
+	/**
+	 * @return the normalizedBuffer
+	 */
+	public double[] getNormalizedBuffer() {
+		return normalizedBuffer;
+	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -46,11 +67,35 @@ public class WaveCanvas extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
-		for (int i = 0; i < getWidth(); i++) {
-			int random = (int) (Math.random() * 150) + 50;
+		int viewWidth = getWidth();
+		int maxAmplitude = getHeight() / 2;
+		int centerY = getHeight() / 2;
 
-			canvas.drawLine(i, getHeight() / 2 - random, i, getHeight() / 2 + random, defaultPaint);
+
+		for (int i = 0; i < viewWidth - 1; i++) {
+
+			int from = (int) ((i / (double) viewWidth) * normalizedBuffer.length);
+			int to = (int) (((i + 1) / (double) viewWidth) * normalizedBuffer.length);
+
+			int maxAmplitudeInRange = (int) (MathUtils.max(normalizedBuffer, from, to) * maxAmplitude);
+			int minAmplitudeInRange = (int) (MathUtils.min(normalizedBuffer, from, to) * maxAmplitude);
+
+			canvas.drawLine(i, centerY + maxAmplitudeInRange, i, centerY + minAmplitudeInRange, defaultPaint);
 		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.antoniovm.lowtency.event.DataAvailableListener#onDataAvailableListener
+	 * (byte[])
+	 */
+	@Override
+	public void onDataAvailableListener(byte[] data, int sampleSize) {
+		ByteConverter.toDoublesArray(data, 0, sampleSize, normalizedBuffer, 0, normalizedBuffer.length, true, true);
+		postInvalidate();
 
 	}
 

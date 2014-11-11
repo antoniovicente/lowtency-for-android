@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.antoniovm.lowtency.R;
 import com.antoniovm.lowtency.core.OutcomingStream;
+import com.antoniovm.lowtency.graphic.WaveCanvas;
 import com.antoniovm.lowtency.net.NetworkServer;
 
 public class ActivityServerStreaming extends Activity {
@@ -69,6 +70,10 @@ public class ActivityServerStreaming extends Activity {
 
 			}
 		});
+
+		WaveCanvas vAudioWave = (WaveCanvas) findViewById(R.id.vAudioWave);
+		
+		vAudioWave.setNormalizedBuffer(new double[outcomingStream.getNumberOfSamplesPerBuffer()]);
 
 	}
 

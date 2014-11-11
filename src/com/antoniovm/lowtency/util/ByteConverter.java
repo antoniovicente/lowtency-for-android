@@ -123,28 +123,67 @@ public class ByteConverter {
 	 * @return The int value
 	 */
 	public static int toIntValue(byte[] bytes, int index, boolean littleEndian) {
+		return (int) toValue(bytes, index, 4, littleEndian);
+	}
+
+	/**
+	 * Return an integer built from an array of bytes
+	 * 
+	 * @param bytes
+	 *            The raw bytes
+	 * @param index
+	 *            The initial position
+	 * @param bytesPerValue
+	 *            The number of bytes per value
+	 * @param littleEndian
+	 *            The byte order
+	 * @return The int value
+	 */
+	public static long toValue(byte[] bytes, int index, int bytesPerValue, boolean littleEndian) {
 		int value = 0;
 
 		int i = index;
 		int sum = 1;
 
-		// The index + 4 int bytes must be within array bounds
-		if (index + 4 > bytes.length) {
-			throw new IllegalArgumentException("At least 4 bytes needed.");
+		// The index + bytesPerValue int bytes must be within array bounds
+		if (index + bytesPerValue > bytes.length) {
+			throw new IllegalArgumentException("At least " + bytesPerValue + " bytes needed.");
 		}
 
 		if (littleEndian) {
 			// Reverse iteration
-			i = Math.min(bytes.length, 4 + index) - 1;
+			i = Math.min(bytes.length, bytesPerValue + index) - 1;
 			sum = -1;
 		}
 
-		for (int j = index; j < bytes.length && i < 4 && i >= index; i += sum) {
+		for (int j = index; j < bytes.length && i < bytesPerValue && i >= index; i += sum) {
 			// The bit and operation is used to get an unsigned value
 			value += (bytes[j++] & 0xFF) << 8 * i;
 		}
 
 		return value;
+
+	}
+
+	/**
+	 * Copies and converts the bytes array into a doubles array
+	 * 
+	 * @param from
+	 * @param startFrom
+	 * @param sampleSize
+	 * @param to
+	 * @param startTo
+	 * @param endTo
+	 * @param normalize
+	 * @param littleEndian
+	 */
+	public static void toDoublesArray(byte[] from, int startFrom, int sampleSize, double[] to, int startTo, int endTo,
+			boolean normalize, boolean littleEndian) {
+		double normalizationCoefficient = normalize ? Math.pow(2, sampleSize) : 1.0;
+
+		for (int i = startTo; i < endTo; i++) {
+			to[i] = toValue(from, startFrom + i * sampleSize, sampleSize, littleEndian) / normalizationCoefficient;
+		}
 
 	}
 

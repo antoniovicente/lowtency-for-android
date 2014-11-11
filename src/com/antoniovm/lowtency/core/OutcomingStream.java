@@ -138,4 +138,11 @@ public class OutcomingStream implements Runnable, ConnectionListener {
 		audioInputManager.stopRecording();
 	}
 
+	/**
+	 * 
+	 */
+	public int getNumberOfSamplesPerBuffer() {
+		return audioInputManager.getNumberOfSamplesPerBuffer();
+	}
+
 }
