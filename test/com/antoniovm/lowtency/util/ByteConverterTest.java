@@ -9,7 +9,8 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.antoniovm.lowtency.util.ByteConverter;
+import com.antoniovm.util.bytedataconvertion.ByteConverter;
+
 
 /**
  * @author Antonio Vicente Martin

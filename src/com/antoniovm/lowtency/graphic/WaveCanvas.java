@@ -11,8 +11,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.antoniovm.lowtency.event.DataAvailableListener;
-import com.antoniovm.lowtency.util.ByteConverter;
 import com.antoniovm.lowtency.util.MathUtils;
+import com.antoniovm.util.bytedataconvertion.ByteConverter;
 
 /**
  * @author Antonio Vicente Martin

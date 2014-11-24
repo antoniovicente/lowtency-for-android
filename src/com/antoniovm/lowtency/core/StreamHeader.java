@@ -3,7 +3,8 @@
  */
 package com.antoniovm.lowtency.core;
 
-import com.antoniovm.lowtency.util.ByteConverter;
+import com.antoniovm.util.bytedataconvertion.ByteConverter;
+
 
 /**
  * @author Antonio Vicente Martin
