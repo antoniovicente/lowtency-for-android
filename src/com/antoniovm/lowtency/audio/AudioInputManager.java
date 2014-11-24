@@ -149,6 +149,14 @@ public class AudioInputManager {
 	 */
 	public int getNumberOfSamplesPerBuffer() {
 		// Buffer length / number of bytes per sample
-		return buffer.length / 2;
+		return buffer.length / getBytesPerSample();
+	}
+
+	/**
+	 * 
+	 */
+	public int getBytesPerSample() {
+		return recorder.getAudioFormat() == AudioFormat.ENCODING_PCM_16BIT ? 2 : 1;
+
 	}
 }

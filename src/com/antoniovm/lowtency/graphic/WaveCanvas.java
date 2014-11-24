@@ -5,6 +5,7 @@ package com.antoniovm.lowtency.graphic;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -32,6 +33,7 @@ public class WaveCanvas extends View implements DataAvailableListener {
 	public WaveCanvas(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.defaultPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		this.defaultPaint.setColor(Color.WHITE);
 	}
 
 	/**
@@ -94,7 +96,7 @@ public class WaveCanvas extends View implements DataAvailableListener {
 	 */
 	@Override
 	public void onDataAvailableListener(byte[] data, int sampleSize) {
-		ByteConverter.toDoublesArray(data, 0, sampleSize, normalizedBuffer, 0, normalizedBuffer.length, true, true);
+		ByteConverter.toDoublesArray(data, 0, sampleSize, normalizedBuffer, 0, normalizedBuffer.length, true, false);
 		postInvalidate();
 
 	}

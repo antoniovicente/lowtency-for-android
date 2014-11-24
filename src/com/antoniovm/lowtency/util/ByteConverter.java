@@ -142,7 +142,7 @@ public class ByteConverter {
 	public static long toValue(byte[] bytes, int index, int bytesPerValue, boolean littleEndian) {
 		int value = 0;
 
-		int i = index;
+		int i = 0;
 		int sum = 1;
 
 		// The index + bytesPerValue int bytes must be within array bounds
@@ -152,13 +152,14 @@ public class ByteConverter {
 
 		if (littleEndian) {
 			// Reverse iteration
-			i = Math.min(bytes.length, bytesPerValue + index) - 1;
+			i = bytesPerValue - 1;
 			sum = -1;
 		}
 
-		for (int j = index; j < bytes.length && i < bytesPerValue && i >= index; i += sum) {
+		for (int j = index; j < bytes.length && i < bytesPerValue && i >= 0; i += sum) {
 			// The bit and operation is used to get an unsigned value
-			value += (bytes[j++] & 0xFF) << 8 * i;
+			// value += (bytes[j++] & 0xFF) << 8 * i;
+			value += bytes[j++] << 8 * i;
 		}
 
 		return value;
@@ -179,7 +180,7 @@ public class ByteConverter {
 	 */
 	public static void toDoublesArray(byte[] from, int startFrom, int sampleSize, double[] to, int startTo, int endTo,
 			boolean normalize, boolean littleEndian) {
-		double normalizationCoefficient = normalize ? Math.pow(2, sampleSize) : 1.0;
+		double normalizationCoefficient = normalize ? Math.pow(256, sampleSize) : 1.0;
 
 		for (int i = startTo; i < endTo; i++) {
 			to[i] = toValue(from, startFrom + i * sampleSize, sampleSize, littleEndian) / normalizationCoefficient;

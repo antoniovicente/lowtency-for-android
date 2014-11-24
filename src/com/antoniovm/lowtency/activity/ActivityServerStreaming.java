@@ -73,6 +73,8 @@ public class ActivityServerStreaming extends Activity {
 
 		WaveCanvas vAudioWave = (WaveCanvas) findViewById(R.id.vAudioWave);
 		
+		outcomingStream.addDataAvailableListeners(vAudioWave);
+
 		vAudioWave.setNormalizedBuffer(new double[outcomingStream.getNumberOfSamplesPerBuffer()]);
 
 	}
