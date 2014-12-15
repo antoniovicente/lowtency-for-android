@@ -1,3 +1,4 @@
 [submodule "libraries/bytes-utils-for-java"]
 	path = libraries/bytes-utils-for-java
 	url = https://github.com/antoniovm/bytes-utils-for-java.git
+	branch = android
