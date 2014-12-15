@@ -23,7 +23,8 @@ public class NetworkClient {
 	/**
 	 * 
 	 */
-	public NetworkClient() {
+	public NetworkClient(int bufferLength) {
+		this.datagramPacket = new DatagramPacket(new byte[bufferLength], bufferLength);
 		this.streamHeader = new StreamHeader();
 		this.socket = new Socket();
 	}
@@ -60,8 +61,8 @@ public class NetworkClient {
 			e.printStackTrace();
 		}
 		
-		int bufferSize = streamHeader.getBufferSize();
-		this.datagramPacket = new DatagramPacket(new byte[bufferSize], bufferSize);
+		//int bufferSize = streamHeader.getBufferSize();
+		//this.datagramPacket = new DatagramPacket(new byte[bufferSize], bufferSize);
 
 		return streamHeader;
 

@@ -19,8 +19,6 @@ import com.antoniovm.lowtency.net.NetworkServer;
  */
 public class OutcomingStream implements Runnable, ConnectionListener {
 
-	private static int DEFAULT_PORT = 3333;
-
 	private AudioInputManager audioInputManager;
 	private NetworkServer sender;
 	private StreamHeader streamHeader;
@@ -164,7 +162,6 @@ public class OutcomingStream implements Runnable, ConnectionListener {
 	private void fireOnDataAvailable(byte[] data, int sampleSize) {
 		for (int i = 0; i < dataAvailableListeners.size(); i++) {
 			dataAvailableListeners.get(i).onDataAvailableListener(data, sampleSize);
-			;
 		}
 	}
 

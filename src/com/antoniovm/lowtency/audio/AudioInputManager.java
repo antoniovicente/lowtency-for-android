@@ -153,10 +153,21 @@ public class AudioInputManager {
 	}
 
 	/**
+	 * Returns the number of bytes per sample
 	 * 
+	 * @return byetes per sample
 	 */
 	public int getBytesPerSample() {
-		return recorder.getAudioFormat() == AudioFormat.ENCODING_PCM_16BIT ? 2 : 1;
+		switch (recorder.getAudioFormat()) {
+		case AudioFormat.ENCODING_PCM_16BIT:
+			return 2;
+		case AudioFormat.ENCODING_PCM_8BIT:
+			return 1;
+
+		default:
+			break;
+		}
+		return 0;
 
 	}
 }

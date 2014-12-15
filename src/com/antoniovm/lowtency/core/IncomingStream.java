@@ -3,7 +3,10 @@
  */
 package com.antoniovm.lowtency.core;
 
+import java.util.ArrayList;
+
 import com.antoniovm.lowtency.audio.AudioOutputManager;
+import com.antoniovm.lowtency.event.DataAvailableListener;
 import com.antoniovm.lowtency.net.NetworkClient;
 
 /**
@@ -23,13 +26,15 @@ public class IncomingStream implements Runnable {
 	private boolean running;
 	private String host;
 	private int port;
+	private ArrayList<DataAvailableListener> dataAvailableListeners;
 
 	public IncomingStream(String host, int port) {
-		this.receiver = new NetworkClient();
 		this.audioOutputManager = new AudioOutputManager();
+		this.receiver = new NetworkClient(audioOutputManager.getBufferLength());
 		this.running = false;
 		this.host = host;
 		this.port = port;
+		this.dataAvailableListeners = new ArrayList<DataAvailableListener>();
 	}
 
 	/**
@@ -88,6 +93,7 @@ public class IncomingStream implements Runnable {
 
 		while (running) {
 			data = receiver.receiveUDP();
+			fireOnDataAvailable(data, audioOutputManager.getBytesPerSample());
 			audioOutputManager.writeSamples(data);
 		}
 
@@ -114,6 +120,29 @@ public class IncomingStream implements Runnable {
 
 	public void setPort(int port) {
 		this.port = port;
+	}
+
+	/**
+	 * @return the dataAvailableListeners
+	 */
+	public void addDataAvailableListeners(DataAvailableListener dataAvailableListener) {
+		this.dataAvailableListeners.add(dataAvailableListener);
+	}
+
+	/**
+	 * 
+	 */
+	private void fireOnDataAvailable(byte[] data, int sampleSize) {
+		for (int i = 0; i < dataAvailableListeners.size(); i++) {
+			dataAvailableListeners.get(i).onDataAvailableListener(data, sampleSize);
+		}
+	}
+
+	/**
+	 * @return
+	 */
+	public int getNumberOfSamplesPerBuffer() {
+		return audioOutputManager.getBufferLength() / audioOutputManager.getBytesPerSample();
 	}
 
 }

@@ -12,7 +12,7 @@ import android.view.View;
 
 import com.antoniovm.lowtency.event.DataAvailableListener;
 import com.antoniovm.lowtency.util.MathUtils;
-import com.antoniovm.util.bytedataconvertion.ByteConverter;
+import com.antoniovm.util.raw.ByteConverter;
 
 /**
  * @author Antonio Vicente Martin
@@ -33,7 +33,13 @@ public class WaveCanvas extends View implements DataAvailableListener {
 	public WaveCanvas(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.defaultPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		this.defaultPaint.setColor(Color.WHITE);
+		this.defaultPaint.setColor(Color.RED);
+
+		/*int color = Color.RED;
+		Drawable background = getBackground();
+		if (background instanceof ColorDrawable) {
+			color = ((ColorDrawable) background).getColor();
+		}*/
 	}
 
 	/**

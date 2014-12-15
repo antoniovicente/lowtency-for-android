@@ -2,6 +2,7 @@ package com.antoniovm.lowtency.audio;
 
 import android.media.AudioFormat;
 import android.media.AudioManager;
+import android.media.AudioRecord;
 import android.media.AudioTrack;
 
 /**
@@ -10,17 +11,17 @@ import android.media.AudioTrack;
  * @author Antonio Vicente Martin
  * 
  */
-public class AudioOutputManager  {
+public class AudioOutputManager extends AudioIOManger {
 
 	private AudioTrack audioTrack;
 	private byte [] samplesBuffer;
 
 	public AudioOutputManager() {
-		this(AudioIOManger.DEFAULT_SAMPLERATE, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT);
+		this(AudioIOManger.DEFAULT_SAMPLERATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
 	}
 
 	public AudioOutputManager(int sampleRate, int channelFormat, int encodingFormat) {
-		int minimumBufferSize = AudioTrack.getMinBufferSize(sampleRate, channelFormat, encodingFormat);
+		int minimumBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelFormat, encodingFormat);
 
 		this.audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate, channelFormat, encodingFormat,
 				minimumBufferSize, AudioTrack.MODE_STREAM);
@@ -52,5 +53,28 @@ public class AudioOutputManager  {
 	public int getMinBufferSize() {
 		return AudioTrack.getMinBufferSize(audioTrack.getSampleRate(), audioTrack.getChannelConfiguration(),
 				audioTrack.getAudioFormat());
+	}
+
+	/**
+	 * @returnm
+	 */
+	public int getBytesPerSample() {
+		switch (audioTrack.getAudioFormat()) {
+		case AudioFormat.ENCODING_PCM_8BIT:
+			return 1;
+		case AudioFormat.ENCODING_PCM_16BIT:
+			return 2;
+		default:
+			break;
+		}
+
+		return 0;
+	}
+
+	/**
+	 * @return The buffer length
+	 */
+	public int getBufferLength() {
+		return samplesBuffer.length;
 	}
 }

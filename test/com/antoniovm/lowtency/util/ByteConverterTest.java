@@ -5,11 +5,10 @@ package com.antoniovm.lowtency.util;
 
 import java.util.Arrays;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 
-import com.antoniovm.util.bytedataconvertion.ByteConverter;
+import com.antoniovm.util.raw.ByteConverter;
 
 
 /**

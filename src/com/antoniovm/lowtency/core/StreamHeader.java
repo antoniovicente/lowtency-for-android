@@ -3,7 +3,7 @@
  */
 package com.antoniovm.lowtency.core;
 
-import com.antoniovm.util.bytedataconvertion.ByteConverter;
+import com.antoniovm.util.raw.ByteConverter;
 
 
 /**

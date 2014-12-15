@@ -48,7 +48,6 @@ public class ActivityServerStreaming extends Activity {
 	 */
 	private void initData() {
 
-
 		outcomingStream = new OutcomingStream();
 
 		outcomingStream.startThread();
