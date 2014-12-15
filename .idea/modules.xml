@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LowtencyForAndroid.iml" filepath="$PROJECT_DIR$/LowtencyForAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/bytes-utils-for-java/bytes-utils-for-java.iml" filepath="$PROJECT_DIR$/libraries/bytes-utils-for-java/bytes-utils-for-java.iml" />
       <module fileurl="file://$PROJECT_DIR$/lowtency-for-android/lowtency-for-android.iml" filepath="$PROJECT_DIR$/lowtency-for-android/lowtency-for-android.iml" />
     </modules>
