@@ -81,7 +81,7 @@ public class AudioInputManager {
     /**
      * Reads 16 bit mono channel
      *
-     * @param buffer
+     * @param buffer The buffer to store read information
      */
     private synchronized void read16BitMono(byte[] buffer) {
         recorder.read(buffer, 0, buffer.length);
@@ -90,7 +90,7 @@ public class AudioInputManager {
     /**
      * Reads 16 bit mono channel. It blocks if the Semaphore does not permit it
      *
-     * @param buffer
+     * @param buffer The buffer to store read information
      */
     public void read1Synchronized6BitMono(byte[] buffer) {
         waitForStart();
@@ -101,7 +101,6 @@ public class AudioInputManager {
     /**
      * Reads 16 bit mono channel. It blocks if the Semaphore does not permit it
      *
-     * @param buffer
      * @return theBuffer
      */
     public byte[] read1Synchronized6BitMono() {
@@ -121,14 +120,16 @@ public class AudioInputManager {
     }
 
     /**
-     * @return
+     * Returns the buffer
+     *
+     * @return The buffer
      */
     public byte[] getData() {
         return buffer;
     }
 
     /**
-     *
+     * Auxiliar method to print the buffer
      */
     public void printBuffer() {
         System.out.print("[");
