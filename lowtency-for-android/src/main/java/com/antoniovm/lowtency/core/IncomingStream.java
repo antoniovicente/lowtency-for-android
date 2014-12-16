@@ -1,148 +1,148 @@
 /**
- * 
+ *
  */
 package com.antoniovm.lowtency.core;
-
-import java.util.ArrayList;
 
 import com.antoniovm.lowtency.audio.AudioOutputManager;
 import com.antoniovm.lowtency.event.DataAvailableListener;
 import com.antoniovm.lowtency.net.NetworkClient;
 
+import java.util.ArrayList;
+
 /**
  * This class handles the incoming stream from internet, and routes it to the
  * audio output manager.
- * 
- * To start a
- * 
+ * <p/>
+ * To start a new connection, startThread() method must be called
+ *
  * @author Antonio Vicente Martin
- * 
  */
 public class IncomingStream implements Runnable {
 
-	private NetworkClient receiver;
-	private AudioOutputManager audioOutputManager;
-	private Thread thread;
-	private boolean running;
-	private String host;
-	private int port;
-	private ArrayList<DataAvailableListener> dataAvailableListeners;
+    private static final int SAMPLES_PER_CHUNK = 256;
 
-	public IncomingStream(String host, int port) {
-		this.audioOutputManager = new AudioOutputManager();
-		this.receiver = new NetworkClient(audioOutputManager.getBufferLength());
-		this.running = false;
-		this.host = host;
-		this.port = port;
-		this.dataAvailableListeners = new ArrayList<DataAvailableListener>();
-	}
+    private NetworkClient receiver;
+    private AudioOutputManager audioOutputManager;
+    private Thread thread;
+    private boolean running;
+    private String host;
+    private int port;
+    private ArrayList<DataAvailableListener> dataAvailableListeners;
 
-	/**
-	 * Creates a new connection to the host and port specified in the
-	 * constructor
-	 * 
-	 * @return true if there was a successful connection, false otherwise
-	 */
-	public boolean connect() {
-		return receiver.connect(host, port);
-	}
+    public IncomingStream(String host, int port) {
+        this.audioOutputManager = new AudioOutputManager(SAMPLES_PER_CHUNK);
+        this.receiver = new NetworkClient(audioOutputManager.getBufferLength());
+        this.running = false;
+        this.host = host;
+        this.port = port;
+        this.dataAvailableListeners = new ArrayList<DataAvailableListener>();
+    }
 
-	/**
-	 * 
-	 * Starts a new Thread
-	 * 
-	 * @return true if it could be started, false otherwise
-	 */
-	public boolean startThread() {
-		if (this.thread == null) {
-			this.thread = new Thread(this);
-			this.thread.start();
+    /**
+     * Creates a new connection to the host and port specified in the
+     * constructor
+     *
+     * @return true if there was a successful connection, false otherwise
+     */
+    public boolean connect() {
+        return receiver.connect(host, port);
+    }
 
-			return true;
-		}
+    /**
+     * Starts a new Thread
+     *
+     * @return true if it could be started, false otherwise
+     */
+    public boolean startThread() {
+        if (this.thread == null) {
+            this.thread = new Thread(this);
+            this.thread.start();
 
-		return false;
-	}
+            return true;
+        }
 
-	/**
-	 * Makes a request to the thread to stop
-	 */
-	public void stop() {
-		running = false;
-	}
+        return false;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Runnable#run()
-	 */
-	@Override
-	public void run() {
+    /**
+     * Makes a request to the thread to stop
+     */
+    public void stop() {
+        running = false;
+    }
 
-		if (!connect()) {
-			tearDown();
-		}
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Runnable#run()
+     */
+    @Override
+    public void run() {
 
-		StreamHeader streamHeader = receiver.receiveHeader();
+        if (!connect()) {
+            tearDown();
+        }
 
-		audioOutputManager.play();
+        StreamHeader streamHeader = receiver.receiveHeader();
 
-		running = true;
+        audioOutputManager.play();
 
-		byte[] data = null;
+        running = true;
 
-		while (running) {
-			data = receiver.receiveUDP();
-			fireOnDataAvailable(data, audioOutputManager.getBytesPerSample());
-			audioOutputManager.writeSamples(data);
-		}
+        byte[] data = null;
 
-		tearDown();
+        while (running) {
+            data = receiver.receiveUDP();
+            fireOnDataAvailable(data, audioOutputManager.getBytesPerSample());
+            audioOutputManager.writeSamples(data);
+        }
 
-	}
+        tearDown();
 
-	private void tearDown() {
-		this.audioOutputManager.stop();
-		this.thread = null;
-	}
+    }
 
-	public String getHost() {
-		return host;
-	}
+    private void tearDown() {
+        this.audioOutputManager.stop();
+        this.thread = null;
+    }
 
-	public void setHost(String host) {
-		this.host = host;
-	}
+    public String getHost() {
+        return host;
+    }
 
-	public int getPort() {
-		return port;
-	}
+    public void setHost(String host) {
+        this.host = host;
+    }
 
-	public void setPort(int port) {
-		this.port = port;
-	}
+    public int getPort() {
+        return port;
+    }
 
-	/**
-	 * @return the dataAvailableListeners
-	 */
-	public void addDataAvailableListeners(DataAvailableListener dataAvailableListener) {
-		this.dataAvailableListeners.add(dataAvailableListener);
-	}
+    public void setPort(int port) {
+        this.port = port;
+    }
 
-	/**
-	 * 
-	 */
-	private void fireOnDataAvailable(byte[] data, int sampleSize) {
-		for (int i = 0; i < dataAvailableListeners.size(); i++) {
-			dataAvailableListeners.get(i).onDataAvailableListener(data, sampleSize);
-		}
-	}
+    /**
+     * @return the dataAvailableListeners
+     */
+    public void addDataAvailableListeners(DataAvailableListener dataAvailableListener) {
+        this.dataAvailableListeners.add(dataAvailableListener);
+    }
 
-	/**
-	 * @return
-	 */
-	public int getNumberOfSamplesPerBuffer() {
-		return audioOutputManager.getBufferLength() / audioOutputManager.getBytesPerSample();
-	}
+    /**
+     *
+     */
+    private void fireOnDataAvailable(byte[] data, int sampleSize) {
+        for (int i = 0; i < dataAvailableListeners.size(); i++) {
+            dataAvailableListeners.get(i).onDataAvailableListener(data, sampleSize);
+        }
+    }
+
+    /**
+     * @return
+     */
+    public int getNumberOfSamplesPerBuffer() {
+        return audioOutputManager.getBufferLength() / audioOutputManager.getBytesPerSample();
+    }
 
 }

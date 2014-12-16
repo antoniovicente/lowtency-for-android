@@ -23,15 +23,15 @@ public class AudioInputManager {
     private Semaphore semaphore;
 
     /**
-     * @param chunkSize The buffer chunk size to handle in samples
+     * @param chunkSizeInSamples The buffer chunk size to handle in samples
      */
-    public AudioInputManager(int chunkSize) {
+    public AudioInputManager(int chunkSizeInSamples) {
         int minBufferSize = AudioRecord.getMinBufferSize(AudioIOManger.DEFAULT_SAMPLERATE, AudioFormat.CHANNEL_IN_MONO,
                 AudioFormat.ENCODING_PCM_16BIT);
         this.recorder = new AudioRecord(MediaRecorder.AudioSource.DEFAULT, AudioIOManger.DEFAULT_SAMPLERATE,
                 AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, minBufferSize);
 
-        minBufferSize = MathUtils.getUpperClosestMultiple(minBufferSize, chunkSize * getBytesPerSample());
+        minBufferSize = MathUtils.getUpperClosestMultiple(minBufferSize, chunkSizeInSamples * getBytesPerSample());
 
         this.buffer = new byte[minBufferSize];
         this.semaphore = new Semaphore(0);
