@@ -1,168 +1,168 @@
 /**
- * 
+ *
  */
 package com.antoniovm.lowtency.core;
-
-import java.util.ArrayList;
 
 import com.antoniovm.lowtency.audio.AudioInputManager;
 import com.antoniovm.lowtency.event.ConnectionListener;
 import com.antoniovm.lowtency.event.DataAvailableListener;
 import com.antoniovm.lowtency.net.NetworkServer;
 
+import java.util.ArrayList;
+
 /**
  * This class handles the outcoming stream read from audio input device, ands
  * sends it to the clients connected
- * 
+ *
  * @author Antonio Vicente Martin
- * 
  */
 public class OutcomingStream implements Runnable, ConnectionListener {
 
-	private AudioInputManager audioInputManager;
-	private NetworkServer sender;
-	private StreamHeader streamHeader;
-	private Thread thread;
-	private boolean running;
-	private ArrayList<DataAvailableListener> dataAvailableListeners;
-	
-	/**
-	 * 
-	 */
-	public OutcomingStream() {
-		this.audioInputManager = new AudioInputManager();
-		this.streamHeader = new StreamHeader(audioInputManager.getBufferSize());
-		this.sender = new NetworkServer(streamHeader);
-		this.dataAvailableListeners = new ArrayList<DataAvailableListener>();
-	}
-	
-	/**
-	 * 
-	 * Starts a new Thread
-	 * 
-	 * @return true if it could be started, false otherwise
-	 */
-	public boolean startThread() {
-		if (this.thread == null) {
-			this.thread = new Thread(this);
-			this.thread.start();
+    private static final int SAMPLES_PER_CHUNK = 256;
 
-			return true;
-		}
+    private AudioInputManager audioInputManager;
+    private NetworkServer sender;
+    private StreamHeader streamHeader;
+    private Thread thread;
+    private boolean running;
+    private ArrayList<DataAvailableListener> dataAvailableListeners;
 
-		return false;
-	}
+    /**
+     *
+     */
+    public OutcomingStream() {
+        this.audioInputManager = new AudioInputManager(SAMPLES_PER_CHUNK);
+        this.streamHeader = new StreamHeader(audioInputManager.getBufferSize());
+        this.sender = new NetworkServer(streamHeader);
+        this.dataAvailableListeners = new ArrayList<DataAvailableListener>();
+    }
 
-	/**
-	 * Makes a request to the thread to stop
-	 */
-	public void stop() {
-		running = false;
-	}
+    /**
+     * Starts a new Thread
+     *
+     * @return true if it could be started, false otherwise
+     */
+    public boolean startThread() {
+        if (this.thread == null) {
+            this.thread = new Thread(this);
+            this.thread.start();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Runnable#run()
-	 */
-	@Override
-	public void run() {
-		running = true;
+            return true;
+        }
 
-		sender.addConnectionListener(this);
-		sender.startThread();
+        return false;
+    }
 
-		while (running) {
-			audioInputManager.read1Synchronized6BitMono();
-			fireOnDataAvailable(audioInputManager.getData(), audioInputManager.getBytesPerSample());
-			sender.sendBroadcast(audioInputManager.getData());
-		}
+    /**
+     * Makes a request to the thread to stop
+     */
+    public void stop() {
+        running = false;
+    }
 
-		this.thread = null;
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Runnable#run()
+     */
+    @Override
+    public void run() {
+        running = true;
 
-	}
+        sender.addConnectionListener(this);
+        sender.startThread();
 
-	/**
-	 * 
-	 */
-	public boolean isStreaming() {
-		return audioInputManager.isRecording();
-	}
+        while (running) {
+            audioInputManager.read1Synchronized6BitMono();
+            fireOnDataAvailable(audioInputManager.getData(), audioInputManager.getBytesPerSample());
+            sender.sendBroadcast(audioInputManager.getData());
+        }
 
-	/**
-	 * Starts recording from input device
-	 */
-	public void startStreaming() {
-		audioInputManager.startRecording();
-	}
+        this.thread = null;
 
-	/**
-	 * Stops recording fron input device
-	 */
-	public void stopStreaming() {
-		audioInputManager.stopRecording();
-	}
+    }
 
-	/**
-	 * 
-	 */
-	public int getPort() {
-		return sender.getPort();
+    /**
+     *
+     */
+    public boolean isStreaming() {
+        return audioInputManager.isRecording();
+    }
 
-	}
+    /**
+     * Starts recording from input device
+     */
+    public void startStreaming() {
+        audioInputManager.startRecording();
+    }
 
-	/**
-	 * @return
-	 */
-	public String getHost() {
-		return sender.getIp();
-	}
+    /**
+     * Stops recording fron input device
+     */
+    public void stopStreaming() {
+        audioInputManager.stopRecording();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.antoniovm.lowtency.event.ConnectionListener#onFirstClientConnection()
-	 */
-	@Override
-	public void onFirstClientConnection() {
-		audioInputManager.startRecording();
+    /**
+     *
+     */
+    public int getPort() {
+        return sender.getPort();
 
-	}
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.antoniovm.lowtency.event.ConnectionListener#onFirstClientDisconnection
-	 * ()
-	 */
-	@Override
-	public void onLastClientDisconnection() {
-		audioInputManager.stopRecording();
-	}
+    /**
+     * @return
+     */
+    public String getHost() {
+        return sender.getIp();
+    }
 
-	/**
-	 * 
-	 */
-	public int getNumberOfSamplesPerBuffer() {
-		return audioInputManager.getNumberOfSamplesPerBuffer();
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * com.antoniovm.lowtency.event.ConnectionListener#onFirstClientConnection()
+     */
+    @Override
+    public void onFirstClientConnection() {
+        audioInputManager.startRecording();
 
-	/**
-	 * @return the dataAvailableListeners
-	 */
-	public void addDataAvailableListeners(DataAvailableListener dataAvailableListener) {
-		this.dataAvailableListeners.add(dataAvailableListener);
-	}
+    }
 
-	/**
-	 * 
-	 */
-	private void fireOnDataAvailable(byte[] data, int sampleSize) {
-		for (int i = 0; i < dataAvailableListeners.size(); i++) {
-			dataAvailableListeners.get(i).onDataAvailableListener(data, sampleSize);
-		}
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * com.antoniovm.lowtency.event.ConnectionListener#onFirstClientDisconnection
+     * ()
+     */
+    @Override
+    public void onLastClientDisconnection() {
+        audioInputManager.stopRecording();
+    }
+
+    /**
+     *
+     */
+    public int getNumberOfSamplesPerBuffer() {
+        return audioInputManager.getNumberOfSamplesPerBuffer();
+    }
+
+    /**
+     * @return the dataAvailableListeners
+     */
+    public void addDataAvailableListeners(DataAvailableListener dataAvailableListener) {
+        this.dataAvailableListeners.add(dataAvailableListener);
+    }
+
+    /**
+     *
+     */
+    private void fireOnDataAvailable(byte[] data, int sampleSize) {
+        for (int i = 0; i < dataAvailableListeners.size(); i++) {
+            dataAvailableListeners.get(i).onDataAvailableListener(data, sampleSize);
+        }
+    }
 
 }
