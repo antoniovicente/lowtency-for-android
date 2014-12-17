@@ -5,8 +5,6 @@ import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
 
-import com.antoniovm.lowtency.util.MathUtils;
-
 /**
  * This class handles the audio stream and sends it to the output device
  *
@@ -18,13 +16,13 @@ public class AudioOutputManager extends AudioIOManger {
     private byte[] samplesBuffer;
 
     public AudioOutputManager(int chunkSizeInSamples) {
-        this(AudioIOManger.DEFAULT_SAMPLERATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, chunkSizeInSamples);
+        this(AudioIOManger.DEFAULT_SAMPLERATE, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT, chunkSizeInSamples);
     }
 
     public AudioOutputManager(int sampleRate, int channelFormat, int encodingFormat, int chunkSizeInSamples) {
         int minimumBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelFormat, encodingFormat);
 
-        minimumBufferSize = MathUtils.getUpperClosestMultiple(minimumBufferSize, chunkSizeInSamples * getBytesPerSample());
+        //minimumBufferSize = MathUtils.getUpperClosestMultiple(minimumBufferSize, chunkSizeInSamples * getBytesPerSample(encodingFormat));
 
         this.audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate, channelFormat, encodingFormat,
                 minimumBufferSize, AudioTrack.MODE_STREAM);
@@ -64,7 +62,17 @@ public class AudioOutputManager extends AudioIOManger {
      * @returnm The number of bytes per sample
      */
     public int getBytesPerSample() {
-        switch (audioTrack.getAudioFormat()) {
+        return getBytesPerSample(audioTrack.getAudioFormat());
+    }
+
+    /**
+     * Returns the number of bytes per sample
+     *
+     * @param encodingFormat The encoding type
+     * @return The number of bytes per sample
+     */
+    private static int getBytesPerSample(int encodingFormat) {
+        switch (encodingFormat) {
             case AudioFormat.ENCODING_PCM_8BIT:
                 return 1;
             case AudioFormat.ENCODING_PCM_16BIT:

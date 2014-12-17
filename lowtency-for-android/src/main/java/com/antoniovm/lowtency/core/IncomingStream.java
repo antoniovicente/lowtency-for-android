@@ -3,6 +3,9 @@
  */
 package com.antoniovm.lowtency.core;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.antoniovm.lowtency.audio.AudioOutputManager;
 import com.antoniovm.lowtency.event.DataAvailableListener;
 import com.antoniovm.lowtency.net.NetworkClient;
@@ -17,7 +20,7 @@ import java.util.ArrayList;
  *
  * @author Antonio Vicente Martin
  */
-public class IncomingStream implements Runnable {
+public class IncomingStream implements Runnable, Parcelable {
 
     private static final int SAMPLES_PER_CHUNK = 256;
 
@@ -145,4 +148,14 @@ public class IncomingStream implements Runnable {
         return audioOutputManager.getBufferLength() / audioOutputManager.getBytesPerSample();
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        Object[] os = {this};
+        dest.writeArray(os);
+    }
 }
