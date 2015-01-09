@@ -5,6 +5,8 @@ import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
 
+import com.antoniovm.lowtency.util.MathUtils;
+
 /**
  * This class handles the audio stream and sends it to the output device
  *
@@ -22,7 +24,7 @@ public class AudioOutputManager extends AudioIOManger {
     public AudioOutputManager(int sampleRate, int channelFormat, int encodingFormat, int chunkSizeInSamples) {
         int minimumBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelFormat, encodingFormat);
 
-        //minimumBufferSize = MathUtils.getUpperClosestMultiple(minimumBufferSize, chunkSizeInSamples * getBytesPerSample(encodingFormat));
+        minimumBufferSize = MathUtils.getUpperClosestMultiple(minimumBufferSize, chunkSizeInSamples * getBytesPerSample(encodingFormat));
 
         this.audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate, channelFormat, encodingFormat,
                 minimumBufferSize, AudioTrack.MODE_STREAM);
@@ -59,7 +61,7 @@ public class AudioOutputManager extends AudioIOManger {
     /**
      * Returns the number of bytes per sample
      *
-     * @returnm The number of bytes per sample
+     * @return The number of bytes per sample
      */
     public int getBytesPerSample() {
         return getBytesPerSample(audioTrack.getAudioFormat());
