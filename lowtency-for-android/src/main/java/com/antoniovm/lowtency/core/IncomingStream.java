@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import com.antoniovm.lowtency.audio.AudioOutputManager;
 import com.antoniovm.lowtency.event.DataAvailableListener;
 import com.antoniovm.lowtency.net.NetworkClient;
+import com.antoniovm.util.event.DataListener;
 import com.antoniovm.util.raw.BlockingQueue;
 
 import java.util.ArrayList;
@@ -21,10 +22,11 @@ import java.util.ArrayList;
  *
  * @author Antonio Vicente Martin
  */
-public class IncomingStream implements Runnable, Parcelable {
+public class IncomingStream implements Runnable, Parcelable, DataListener {
 
     private static final int SAMPLES_PER_CHUNK = 256;
 
+    private byte[] data;
     private BlockingQueue blockingQueue;
     private NetworkClient receiver;
     private AudioOutputManager audioOutputManager;
@@ -42,6 +44,7 @@ public class IncomingStream implements Runnable, Parcelable {
     public IncomingStream(String host, int port) {
         this.audioOutputManager = new AudioOutputManager(SAMPLES_PER_CHUNK);
         this.blockingQueue = audioOutputManager.getBlockingQueue();
+        this.data = new byte[blockingQueue.getSize()];
         this.receiver = new NetworkClient(audioOutputManager.getBufferLength());
         this.running = false;
         this.host = host;
@@ -104,7 +107,6 @@ public class IncomingStream implements Runnable, Parcelable {
         while (running) {
             data = receiver.receiveUDP();
             blockingQueue.push(data);
-            fireOnDataAvailable(data, audioOutputManager.getBytesPerSample());
         }
 
         tearDown();
@@ -156,5 +158,16 @@ public class IncomingStream implements Runnable, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         Object[] os = {this};
         dest.writeArray(os);
+    }
+
+    @Override
+    public void onFull() {
+        blockingQueue.pop(data);
+        fireOnDataAvailable(data, audioOutputManager.getBytesPerSample());
+    }
+
+    @Override
+    public void onEmpty() {
+
     }
 }
