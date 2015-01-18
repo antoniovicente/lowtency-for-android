@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import com.antoniovm.lowtency.audio.AudioOutputManager;
 import com.antoniovm.lowtency.event.DataAvailableListener;
 import com.antoniovm.lowtency.net.NetworkClient;
+import com.antoniovm.util.raw.BlockingQueue;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ public class IncomingStream implements Runnable, Parcelable {
 
     private static final int SAMPLES_PER_CHUNK = 256;
 
+    private BlockingQueue blockingQueue;
     private NetworkClient receiver;
     private AudioOutputManager audioOutputManager;
     private Thread thread;
