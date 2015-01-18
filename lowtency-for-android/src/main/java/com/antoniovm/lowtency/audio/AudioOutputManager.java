@@ -18,6 +18,8 @@ public class AudioOutputManager extends AudioIOManger implements Runnable {
     private AudioTrack audioTrack;
     private byte[] samplesWritingBuffer;
     private BlockingQueue blockingQueue;
+    private Thread thread;
+    private boolean running;
 
     /**
      * Builds a new AudioOutputManager
@@ -68,6 +70,7 @@ public class AudioOutputManager extends AudioIOManger implements Runnable {
      */
     public void play() {
         audioTrack.play();
+        startThread();
     }
 
     /**
@@ -75,6 +78,7 @@ public class AudioOutputManager extends AudioIOManger implements Runnable {
      */
     public void stop() {
         audioTrack.stop();
+        running = false;
     }
 
     /**
@@ -106,10 +110,19 @@ public class AudioOutputManager extends AudioIOManger implements Runnable {
     }
 
     /**
-     * @return The buffer length
+     * Returns the buffer length in bytes
+     * @return bufferLength The buffer's length in bytes
      */
     public int getBufferLength() {
         return samplesWritingBuffer.length;
+    }
+
+    /**
+     * Returns the buffer length in samples
+     * @return bufferLength The buffer's length in samples
+     */
+    public int getBufferLengthInSamples(){
+        return getBufferLength()/getBytesPerSample();
     }
 
     /**
@@ -117,7 +130,8 @@ public class AudioOutputManager extends AudioIOManger implements Runnable {
      */
     @Override
     public void run() {
-        while(true){
+        running = true;
+        while(running){
             blockingQueue.pop(samplesWritingBuffer);
             writeSamples(samplesWritingBuffer);
         }
@@ -129,5 +143,21 @@ public class AudioOutputManager extends AudioIOManger implements Runnable {
      */
     public BlockingQueue getBlockingQueue() {
         return blockingQueue;
+    }
+
+    /**
+     * Starts a new Thread
+     *
+     * @return true if it could be started, false otherwise
+     */
+    public boolean startThread() {
+        if (this.thread == null) {
+            this.thread = new Thread(this);
+            this.thread.start();
+
+            return true;
+        }
+
+        return false;
     }
 }

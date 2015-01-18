@@ -72,7 +72,7 @@ public class ActivityClientStreaming extends Activity {
 
         incomingStream.addDataAvailableListeners(vAudioWave);
 
-        vAudioWave.setNormalizedBuffer(new double[incomingStream.getNumberOfSamplesPerBuffer()]);
+        vAudioWave.setNormalizedBuffer(new double[incomingStream.getBufferLengthInSamples()]);
     }
 
 

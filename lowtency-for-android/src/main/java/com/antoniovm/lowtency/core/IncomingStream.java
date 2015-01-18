@@ -34,13 +34,19 @@ public class IncomingStream implements Runnable, Parcelable {
     private int port;
     private ArrayList<DataAvailableListener> dataAvailableListeners;
 
+    /**
+     * Builds a new IncomingString
+     * @param host The remote host's IP
+     * @param port The remote's aplication port
+     */
     public IncomingStream(String host, int port) {
         this.audioOutputManager = new AudioOutputManager(SAMPLES_PER_CHUNK);
+        this.blockingQueue = audioOutputManager.getBlockingQueue();
         this.receiver = new NetworkClient(audioOutputManager.getBufferLength());
         this.running = false;
         this.host = host;
         this.port = port;
-        this.dataAvailableListeners = new ArrayList<DataAvailableListener>();
+        this.dataAvailableListeners = new ArrayList<>();
     }
 
     /**
@@ -76,10 +82,9 @@ public class IncomingStream implements Runnable, Parcelable {
         running = false;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Runnable#run()
+    /**
+     * Main thread to read from the UDP socket and store into a concurrent queue to let the
+     * playback thread, read the data to send it to the audio device
      */
     @Override
     public void run() {
@@ -98,44 +103,34 @@ public class IncomingStream implements Runnable, Parcelable {
 
         while (running) {
             data = receiver.receiveUDP();
+            blockingQueue.push(data);
             fireOnDataAvailable(data, audioOutputManager.getBytesPerSample());
-            audioOutputManager.writeSamples(data);
         }
 
         tearDown();
 
     }
 
+    /**
+     * Stops the playback
+     */
     private void tearDown() {
         this.audioOutputManager.stop();
         this.thread = null;
     }
 
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
     /**
-     * @return the dataAvailableListeners
+     * Add a new DataAvailableListener to the list
+     * @param dataAvailableListener The DataAvailableListener object
      */
     public void addDataAvailableListeners(DataAvailableListener dataAvailableListener) {
         this.dataAvailableListeners.add(dataAvailableListener);
     }
 
     /**
-     *
+     * Fires the OnDataAvailable event
+     * @param data The new data available
+     * @param sampleSize The size of each sample in bytes
      */
     private void fireOnDataAvailable(byte[] data, int sampleSize) {
         for (int i = 0; i < dataAvailableListeners.size(); i++) {
@@ -144,10 +139,11 @@ public class IncomingStream implements Runnable, Parcelable {
     }
 
     /**
-     * @return
+     * Returns the buffer length in samples
+     * @return bufferLength The buffer's length in samples
      */
-    public int getNumberOfSamplesPerBuffer() {
-        return audioOutputManager.getBufferLength() / audioOutputManager.getBytesPerSample();
+    public int getBufferLengthInSamples() {
+        return audioOutputManager.getBufferLengthInSamples();
     }
 
     @Override
