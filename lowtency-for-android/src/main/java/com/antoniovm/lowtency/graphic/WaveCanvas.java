@@ -74,6 +74,9 @@ public class WaveCanvas extends View implements DataAvailableListener {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+        if (normalizedBuffer == null){
+            return;
+        }
 
 		int viewWidth = getWidth();
 		int maxAmplitude = getHeight() / 2;

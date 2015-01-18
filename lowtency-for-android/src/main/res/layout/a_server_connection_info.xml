@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/lServerInfoContainer" >
+    android:id="@+id/lServerInfoContainer"
+    android:keepScreenOn="true">
     
     <include layout="@layout/i_ip_port_info"/>
 
