@@ -7,12 +7,13 @@ import com.antoniovm.lowtency.audio.AudioInputManager;
 import com.antoniovm.lowtency.event.ConnectionListener;
 import com.antoniovm.lowtency.event.DataAvailableListener;
 import com.antoniovm.lowtency.net.NetworkServer;
+import com.antoniovm.util.raw.Queue;
 
 import java.util.ArrayList;
 
 /**
- * This class handles the outcoming stream read from audio input device, ands
- * sends it to the clients connected
+ * This class handles the outcoming network stream, reads from audio input device, ands
+ * sends it to the connected clients
  *
  * @author Antonio Vicente Martin
  */
@@ -20,6 +21,8 @@ public class OutcomingStream implements Runnable, ConnectionListener {
 
     private static final int SAMPLES_PER_CHUNK = 256;
 
+    private byte[] chunk;
+    private Queue queue;
     private AudioInputManager audioInputManager;
     private NetworkServer sender;
     private StreamHeader streamHeader;
@@ -33,8 +36,10 @@ public class OutcomingStream implements Runnable, ConnectionListener {
     public OutcomingStream() {
         this.audioInputManager = new AudioInputManager(SAMPLES_PER_CHUNK);
         this.streamHeader = new StreamHeader(audioInputManager.getBufferSize());
+        this.queue = new Queue(audioInputManager.getBufferSize());
         this.sender = new NetworkServer(streamHeader);
-        this.dataAvailableListeners = new ArrayList<DataAvailableListener>();
+        this.dataAvailableListeners = new ArrayList<>();
+        this.chunk = new byte[SAMPLES_PER_CHUNK];
     }
 
     /**
@@ -75,32 +80,18 @@ public class OutcomingStream implements Runnable, ConnectionListener {
         while (running) {
             audioInputManager.read1Synchronized6BitMono();
             fireOnDataAvailable(audioInputManager.getData(), audioInputManager.getBytesPerSample());
-            sender.sendBroadcast(audioInputManager.getData());
+            queue.push(audioInputManager.getData());
+
+            // Send chunks to clients
+            while (!queue.isEmpty()){
+                queue.pop(chunk);
+                sender.sendBroadcast(chunk);
+            }
+
         }
 
         this.thread = null;
 
-    }
-
-    /**
-     *
-     */
-    public boolean isStreaming() {
-        return audioInputManager.isRecording();
-    }
-
-    /**
-     * Starts recording from input device
-     */
-    public void startStreaming() {
-        audioInputManager.startRecording();
-    }
-
-    /**
-     * Stops recording fron input device
-     */
-    public void stopStreaming() {
-        audioInputManager.stopRecording();
     }
 
     /**
