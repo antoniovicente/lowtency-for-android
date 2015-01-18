@@ -63,6 +63,7 @@ public class ActivityClientStreaming extends Activity {
 
             @Override
             public void onClick(View v) {
+                incomingStream.stop();
                 startActivity(new Intent(ActivityClientStreaming.this, ActivityMain.class));
                 finish();
             }

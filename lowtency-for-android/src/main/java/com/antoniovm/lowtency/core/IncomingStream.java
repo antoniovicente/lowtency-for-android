@@ -117,6 +117,7 @@ public class IncomingStream implements Runnable, Parcelable {
     private void tearDown() {
         this.audioOutputManager.stop();
         this.thread = null;
+        this.receiver.close();
     }
 
     /**

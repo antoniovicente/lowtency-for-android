@@ -90,4 +90,16 @@ public class NetworkClient {
         return true;
     }
 
+    /**
+     * Closes the socket connection
+     */
+    public void close() {
+        if (!socket.isClosed()) {
+            try {
+                this.socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

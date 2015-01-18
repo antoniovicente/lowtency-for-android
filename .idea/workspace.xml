@@ -25,11 +25,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e17bf27e-c632-4ae3-9c68-0958e27b783c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/graphic/WaveCanvas.java" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/graphic/WaveCanvas.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/res/layout/a_client_streaming.xml" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/res/layout/a_client_streaming.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/res/layout/a_server_connection_info.xml" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/res/layout/a_server_connection_info.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/res/layout/a_server_streaming.xml" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/res/layout/a_server_streaming.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/activity/ActivityClientStreaming.java" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/activity/ActivityClientStreaming.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/IncomingStream.java" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/IncomingStream.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/net/NetworkClient.java" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/net/NetworkClient.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="LowtencyForAndroid.iws" />
@@ -83,15 +81,37 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="a_client_streaming.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="a_client_streaming.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lowtency-for-android/src/main/res/layout/a_client_streaming.xml">
           <provider editor-type-id="android-designer">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.41621622" vertical-offset="0" max-vertical-offset="868">
-              <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
+            <state vertical-scroll-proportion="-9.333333" vertical-offset="0" max-vertical-offset="868">
+              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NetworkClient.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/net/NetworkClient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.93721974" vertical-offset="884" max-vertical-offset="1414">
+              <caret line="100" column="5" selection-start-line="100" selection-start-column="5" selection-end-line="100" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActivityClientStreaming.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/activity/ActivityClientStreaming.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="532" max-vertical-offset="1862">
+              <caret line="65" column="34" selection-start-line="65" selection-start-column="34" selection-end-line="65" selection-end-column="34" />
+              <folding>
+                <element signature="e#1488#1763#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -135,8 +155,8 @@
       <file leaf-file-name="IncomingStream.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/IncomingStream.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1340" max-vertical-offset="2170">
-              <caret line="117" column="34" selection-start-line="117" selection-start-column="34" selection-end-line="117" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1274" max-vertical-offset="2184">
+              <caret line="119" column="30" selection-start-line="119" selection-start-column="30" selection-end-line="119" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -1680,17 +1700,17 @@
         <option value="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/OutcomingStream.java" />
         <option value="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/audio/AudioInputManager.java" />
         <option value="$PROJECT_DIR$/lowtency-for-android/src/main/res/layout/a_main_menu.xml" />
-        <option value="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/activity/ActivityClientStreaming.java" />
         <option value="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/net/NetworkServer.java" />
         <option value="$PROJECT_DIR$/libraries/bytes-utils-for-java/src/main/java/com/antoniovm/util/raw/Queue.java" />
-        <option value="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/net/NetworkClient.java" />
-        <option value="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/IncomingStream.java" />
         <option value="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/audio/AudioOutputManager.java" />
         <option value="$PROJECT_DIR$/lowtency-for-android/src/main/res/layout/a_server_streaming.xml" />
         <option value="$PROJECT_DIR$/lowtency-for-android/src/main/res/layout/a_server_connection_info.xml" />
         <option value="$PROJECT_DIR$/lowtency-for-android/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/lowtency-for-android/src/main/res/layout/a_client_streaming.xml" />
         <option value="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/graphic/WaveCanvas.java" />
+        <option value="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/activity/ActivityClientStreaming.java" />
+        <option value="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/IncomingStream.java" />
+        <option value="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/net/NetworkClient.java" />
       </list>
     </option>
   </component>
@@ -1895,6 +1915,28 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lowtency" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LowtencyForAndroid" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lowtency-for-android" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="manifests" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
             </PATH_ELEMENT>
@@ -1978,7 +2020,7 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
     <property name="recentsLimit" value="5" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="3200135832539000" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="06bc593500693424" />
     <property name="FullScreen" value="true" />
     <property name="LayoutCode.rearrangeEntriesJava" value="false" />
     <property name="UI_DESIGNER_EDITOR_MODE.PaletteToolWindowManager.SHOW" value="false" />
@@ -2182,9 +2224,9 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998326" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32956383" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286119" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26487252" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.360134" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998326" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -2193,7 +2235,7 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3802345" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47579426" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3796034" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3796034" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" x="356" y="230" width="654" height="277" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286119" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" x="356" y="230" width="654" height="277" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21567044" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998326" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16720517" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2231,7 +2273,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/activity/ActivityClientStreaming.java</url>
-          <line>133</line>
+          <line>134</line>
           <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
@@ -2246,14 +2288,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/net/NetworkClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="1485">
-          <caret line="19" column="38" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/OutcomingStream.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2610">
@@ -2584,22 +2618,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/net/NetworkClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1380">
-          <caret line="14" column="27" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/activity/ActivityClientStreaming.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.0092378" vertical-offset="0" max-vertical-offset="1920">
-          <caret line="72" column="23" selection-start-line="72" selection-start-column="23" selection-end-line="72" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/libraries/bytes-utils-for-java/src/main/java/com/antoniovm/util/raw/Queue.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.1339493" vertical-offset="0" max-vertical-offset="1554">
@@ -2673,14 +2691,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/IncomingStream.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1340" max-vertical-offset="2170">
-          <caret line="117" column="34" selection-start-line="117" selection-start-column="34" selection-end-line="117" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/audio/AudioOutputManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2282">
@@ -2737,8 +2747,42 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41621622" vertical-offset="0" max-vertical-offset="868">
-          <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
+        <state vertical-scroll-proportion="-9.333333" vertical-offset="0" max-vertical-offset="868">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-21/android/app/Activity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.77598155" vertical-offset="8064" max-vertical-offset="85638">
+          <caret line="698" column="13" selection-start-line="698" selection-start-column="13" selection-end-line="698" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/activity/ActivityClientStreaming.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="532" max-vertical-offset="1862">
+          <caret line="65" column="34" selection-start-line="65" selection-start-column="34" selection-end-line="65" selection-end-column="34" />
+          <folding>
+            <element signature="e#1488#1763#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/IncomingStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1274" max-vertical-offset="2184">
+          <caret line="119" column="30" selection-start-line="119" selection-start-column="30" selection-end-line="119" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/net/NetworkClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.93721974" vertical-offset="884" max-vertical-offset="1414">
+          <caret line="100" column="5" selection-start-line="100" selection-start-column="5" selection-end-line="100" selection-end-column="5" />
           <folding />
         </state>
       </provider>
