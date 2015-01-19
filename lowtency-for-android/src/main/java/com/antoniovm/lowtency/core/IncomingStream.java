@@ -44,8 +44,9 @@ public class IncomingStream implements Runnable, Parcelable, DataListener {
     public IncomingStream(String host, int port) {
         this.audioOutputManager = new AudioOutputManager(SAMPLES_PER_CHUNK);
         this.blockingQueue = audioOutputManager.getBlockingQueue();
-        this.data = new byte[blockingQueue.getSize()];
-        this.receiver = new NetworkClient(audioOutputManager.getBufferLength());
+        this.blockingQueue.addDataListener(this);
+        this.data = new byte[blockingQueue.getCapacity()];
+        this.receiver = new NetworkClient(SAMPLES_PER_CHUNK);
         this.running = false;
         this.host = host;
         this.port = port;
@@ -162,7 +163,7 @@ public class IncomingStream implements Runnable, Parcelable, DataListener {
 
     @Override
     public void onFull() {
-        blockingQueue.pop(data);
+        blockingQueue.peek(data);
         fireOnDataAvailable(data, audioOutputManager.getBytesPerSample());
     }
 

@@ -44,10 +44,10 @@ public class NetworkServer implements Runnable {
      *
      */
     public NetworkServer(StreamHeader streamHeader) {
-        this.datagramPacket = new DatagramPacket(new byte[100], 100);
-        this.clients = new ArrayList<Socket>();
+        this.datagramPacket = new DatagramPacket(new byte[0], 0);
+        this.clients = new ArrayList<>();
         this.streamHeader = streamHeader;
-        this.connectionListeners = new ArrayList<ConnectionListener>();
+        this.connectionListeners = new ArrayList<>();
 
         try {
             this.serverSocket = new ServerSocket();

@@ -12,28 +12,21 @@ import com.antoniovm.util.raw.ByteConverter;
  */
 public class StreamHeader {
 
+
+
 	private int bufferSize;
+    private int blockSize;
 
-	/**
-	 * 
-	 */
-	public StreamHeader(int bufferSize) {
+    public static final int RAW_LENGTH = 8;
+
+    /**
+     * Creates a new StreamHeader with the specified arguments
+     * @param bufferSize The message size in bytes
+     * @param blockSize The radix size to work with
+     */
+	public StreamHeader(int bufferSize, int blockSize) {
 		this.bufferSize = bufferSize;
-	}
-
-	/**
-	 * 
-	 */
-	public StreamHeader() {
-
-	}
-
-	/**
-	 * @param bufferSize
-	 *            the bufferSize to set
-	 */
-	public void setBufferSize(int bufferSize) {
-		this.bufferSize = bufferSize;
+        this.blockSize = blockSize;
 	}
 
 	/**
@@ -49,19 +42,28 @@ public class StreamHeader {
 	 * @return
 	 */
 	public byte[] getSerialized() {
-		byte[] serializedHeader = new byte[4];
+		byte[] serializedHeader = new byte[RAW_LENGTH];
 
-		ByteConverter.toBytesArray(bufferSize, serializedHeader, true);
+        ByteConverter.toBytesArray(bufferSize, serializedHeader,0,4, true);
+        ByteConverter.toBytesArray(blockSize, serializedHeader,4,8, true);
 
 		return serializedHeader;
 	}
 
-	public static StreamHeader buildFromSerialized(byte[] serializedHeader, StreamHeader streamHeader) {
+    /**
+     * Builds a new StreamHeader from a serialized array
+     * @param serializedHeader The raw serialized fields
+     * @return A new StreamHeader
+     */
+    public static StreamHeader buildFromSerialized(byte[] serializedHeader) {
+        if (serializedHeader.length < RAW_LENGTH){
+            throw new IllegalArgumentException("The minimum length mas be " + RAW_LENGTH);
+        }
 
 		int bufferSize = ByteConverter.toIntValue(serializedHeader, 0, true);
-		streamHeader.setBufferSize(bufferSize);
+        int blockSize = ByteConverter.toIntValue(serializedHeader, 4, true);
 
-		return streamHeader;
+		return new StreamHeader(bufferSize,blockSize);
 	}
 
 }

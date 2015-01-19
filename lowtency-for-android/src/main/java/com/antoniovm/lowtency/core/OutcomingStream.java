@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class OutcomingStream implements Runnable, ConnectionListener {
 
-    private static final int SAMPLES_PER_CHUNK = 256;
+    private static final int SAMPLES_PER_BLOCK = 256;
 
     private byte[] chunk;
     private Queue queue;
@@ -34,12 +34,12 @@ public class OutcomingStream implements Runnable, ConnectionListener {
      *
      */
     public OutcomingStream() {
-        this.audioInputManager = new AudioInputManager(SAMPLES_PER_CHUNK);
-        this.streamHeader = new StreamHeader(audioInputManager.getBufferSize());
+        this.audioInputManager = new AudioInputManager(SAMPLES_PER_BLOCK);
+        this.streamHeader = new StreamHeader(audioInputManager.getBufferSize(), SAMPLES_PER_BLOCK);
         this.queue = new Queue(audioInputManager.getBufferSize());
         this.sender = new NetworkServer(streamHeader);
         this.dataAvailableListeners = new ArrayList<>();
-        this.chunk = new byte[SAMPLES_PER_CHUNK];
+        this.chunk = new byte[SAMPLES_PER_BLOCK];
     }
 
     /**
@@ -80,13 +80,15 @@ public class OutcomingStream implements Runnable, ConnectionListener {
         while (running) {
             audioInputManager.read1Synchronized6BitMono();
             fireOnDataAvailable(audioInputManager.getData(), audioInputManager.getBytesPerSample());
+            sender.sendBroadcast(audioInputManager.getData());
+            /*
             queue.push(audioInputManager.getData());
 
             // Send chunks to clients
             while (!queue.isEmpty()){
                 queue.pop(chunk);
                 sender.sendBroadcast(chunk);
-            }
+            }*/
 
         }
 

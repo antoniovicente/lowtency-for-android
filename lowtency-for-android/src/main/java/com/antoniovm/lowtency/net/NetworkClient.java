@@ -24,7 +24,6 @@ public class NetworkClient {
      */
     public NetworkClient(int bufferLength) {
         this.datagramPacket = new DatagramPacket(new byte[bufferLength], bufferLength);
-        this.streamHeader = new StreamHeader();
         this.socket = new Socket();
     }
 
@@ -48,20 +47,17 @@ public class NetworkClient {
      * @return streamHeader The header information of the stream
      */
     public StreamHeader receiveHeader() {
-        byte[] serializedHeader = new byte[4];
+        byte[] serializedHeader = new byte[StreamHeader.RAW_LENGTH];
 
         try {
             InputStream is = socket.getInputStream();
             is.read(serializedHeader);
             is.close();
-            StreamHeader.buildFromSerialized(serializedHeader, streamHeader);
+            streamHeader = StreamHeader.buildFromSerialized(serializedHeader);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //int bufferSize = streamHeader.getBufferSize();
-        //this.datagramPacket = new DatagramPacket(new byte[bufferSize], bufferSize);
 
         return streamHeader;
 
