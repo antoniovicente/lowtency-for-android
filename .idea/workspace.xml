@@ -25,14 +25,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e17bf27e-c632-4ae3-9c68-0958e27b783c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/activity/ActivityClientStreaming.java" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/activity/ActivityClientStreaming.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/audio/AudioInputManager.java" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/audio/AudioInputManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/audio/AudioOutputManager.java" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/audio/AudioOutputManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/IncomingStream.java" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/IncomingStream.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/net/NetworkClient.java" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/net/NetworkClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/OutcomingStream.java" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/OutcomingStream.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/StreamHeader.java" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/StreamHeader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/graphic/WaveCanvas.java" afterPath="$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/graphic/WaveCanvas.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libraries/bytes-utils-for-java" afterPath="$PROJECT_DIR$/libraries/bytes-utils-for-java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="LowtencyForAndroid.iws" />
@@ -123,11 +116,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StreamHeader.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="StreamHeader.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/StreamHeader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.1690428" vertical-offset="0" max-vertical-offset="924">
-              <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="433" max-vertical-offset="924">
+              <caret line="53" column="71" selection-start-line="53" selection-start-column="71" selection-end-line="53" selection-end-column="71" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BlockingQueue.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/libraries/bytes-utils-for-java/src/main/java/com/antoniovm/util/raw/BlockingQueue.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.32101616" vertical-offset="1219" max-vertical-offset="2114">
+              <caret line="97" column="0" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -156,7 +159,7 @@
     <option name="REMEMBER_PASSWORDS" value="true" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/libraries/bytes-utils-for-java" />
   </component>
   <component name="GradleLocalSettings">
     <option name="tasksExpandState">
@@ -1953,6 +1956,46 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LowtencyForAndroid" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bytes-utils-for-java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="util" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="raw" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LowtencyForAndroid" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bytes-utils-for-java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="util" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane">
@@ -2171,14 +2214,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26487252" sideWeight="0.3441034" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286119" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26487252" sideWeight="0.3441034" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35977337" sideWeight="0.37479806" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35977337" sideWeight="0.49434572" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47579426" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -2186,7 +2229,7 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47579426" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3796034" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26487252" sideWeight="0.6558966" order="14" side_tool="true" content_ui="tabs" x="356" y="230" width="654" height="277" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286119" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" x="356" y="230" width="654" height="277" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21567044" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16720517" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2574,14 +2617,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libraries/bytes-utils-for-java/src/main/java/com/antoniovm/util/raw/BlockingQueue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.7505774" vertical-offset="0" max-vertical-offset="2100">
-          <caret line="116" column="35" selection-start-line="116" selection-start-column="35" selection-end-line="116" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/libraries/bytes-utils-for-java/src/main/java/com/antoniovm/util/raw/Queue.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="3.2586606" vertical-offset="3545" max-vertical-offset="6776">
@@ -2616,8 +2651,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lowtency-for-android/src/main/java/com/antoniovm/lowtency/core/StreamHeader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1690428" vertical-offset="0" max-vertical-offset="924">
-          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="433" max-vertical-offset="924">
+          <caret line="53" column="71" selection-start-line="53" selection-start-column="71" selection-end-line="53" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libraries/bytes-utils-for-java/src/main/java/com/antoniovm/util/raw/BlockingQueue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32101616" vertical-offset="1219" max-vertical-offset="2114">
+          <caret line="97" column="0" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
           <folding />
         </state>
       </provider>
