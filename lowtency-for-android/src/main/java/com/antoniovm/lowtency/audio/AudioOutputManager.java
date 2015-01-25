@@ -2,14 +2,12 @@ package com.antoniovm.lowtency.audio;
 
 import android.media.AudioFormat;
 import android.media.AudioManager;
-import android.media.AudioRecord;
 import android.media.AudioTrack;
 
-import com.antoniovm.lowtency.util.MathUtils;
 import com.antoniovm.util.raw.BlockingQueue;
 
 /**
- * This class handles the audio stream and sends it to the output device
+ * This class handles the audio stream and sends it to the output audio device
  *
  * @author Antonio Vicente Martin
  */
@@ -23,10 +21,10 @@ public class AudioOutputManager extends AudioIOManger implements Runnable {
 
     /**
      * Builds a new AudioOutputManager
-     * @param chunkSizeInSamples The base block size in bytes
+     * @param proposedBufferSize The lowest buffer proposed by listener
      */
-    public AudioOutputManager(int chunkSizeInSamples) {
-        this(AudioIOManger.DEFAULT_SAMPLERATE, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT, chunkSizeInSamples);
+    public AudioOutputManager(int proposedBufferSize) {
+        this(AudioIOManger.DEFAULT_SAMPLERATE, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT, proposedBufferSize);
     }
 
     /**
@@ -34,11 +32,14 @@ public class AudioOutputManager extends AudioIOManger implements Runnable {
      * @param sampleRate The samplerate in samples per second
      * @param channelFormat The AudioFormat.CHANNEL_CONFIGURATION_XXXX configuration
      * @param encodingFormat The AudioFormat.ENCODING_XXX configuration
-     * @param chunkSizeInSamples The base block size in bytes
+     * @param proposedBufferSize The lowest buffer proposed by listener
      */
-    public AudioOutputManager(int sampleRate, int channelFormat, int encodingFormat, int chunkSizeInSamples) {
-        int minimumBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelFormat, encodingFormat);
-        minimumBufferSize = MathUtils.getUpperClosestMultiple(minimumBufferSize, chunkSizeInSamples * getBytesPerSample(encodingFormat));
+    public AudioOutputManager(int sampleRate, int channelFormat, int encodingFormat, int proposedBufferSize) {
+        int minimumBufferSize = AudioTrack.getMinBufferSize(sampleRate, channelFormat, encodingFormat);
+
+        minimumBufferSize = (proposedBufferSize < minimumBufferSize)?proposedBufferSize*2:proposedBufferSize;
+
+        //minimumBufferSize = Math.max(minimumBufferSize, proposedBufferSize);
 
         this.samplesWritingBuffer = new byte[minimumBufferSize];
         this.blockingQueue = new BlockingQueue(minimumBufferSize, BlockingQueue.PushPolicy.OVERWRITE_OLD_DATA,minimumBufferSize);

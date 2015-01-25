@@ -12,21 +12,16 @@ import com.antoniovm.util.raw.ByteConverter;
  */
 public class StreamHeader {
 
-
-
 	private int bufferSize;
-    private int blockSize;
 
-    public static final int RAW_LENGTH = 8;
+    public static final int RAW_LENGTH = 4;
 
     /**
      * Creates a new StreamHeader with the specified arguments
      * @param bufferSize The message size in bytes
-     * @param blockSize The radix size to work with
      */
-	public StreamHeader(int bufferSize, int blockSize) {
+	public StreamHeader(int bufferSize) {
 		this.bufferSize = bufferSize;
-        this.blockSize = blockSize;
 	}
 
 	/**
@@ -45,7 +40,6 @@ public class StreamHeader {
 		byte[] serializedHeader = new byte[RAW_LENGTH];
 
         ByteConverter.toBytesArray(bufferSize, serializedHeader,0,4, true);
-        ByteConverter.toBytesArray(blockSize, serializedHeader,4,8, true);
 
 		return serializedHeader;
 	}
@@ -57,13 +51,12 @@ public class StreamHeader {
      */
     public static StreamHeader buildFromSerialized(byte[] serializedHeader) {
         if (serializedHeader.length < RAW_LENGTH){
-            throw new IllegalArgumentException("The minimum length mas be " + RAW_LENGTH);
+            throw new IllegalArgumentException("The minimum length must be " + RAW_LENGTH);
         }
 
 		int bufferSize = ByteConverter.toIntValue(serializedHeader, 0, true);
-        int blockSize = ByteConverter.toIntValue(serializedHeader, 4, true);
 
-		return new StreamHeader(bufferSize,blockSize);
+		return new StreamHeader(bufferSize);
 	}
 
 }

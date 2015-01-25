@@ -22,8 +22,7 @@ public class NetworkClient {
     /**
      *
      */
-    public NetworkClient(int bufferLength) {
-        this.datagramPacket = new DatagramPacket(new byte[bufferLength], bufferLength);
+    public NetworkClient() {
         this.socket = new Socket();
     }
 
@@ -53,8 +52,10 @@ public class NetworkClient {
             InputStream is = socket.getInputStream();
             is.read(serializedHeader);
             is.close();
-            streamHeader = StreamHeader.buildFromSerialized(serializedHeader);
+            this.streamHeader = StreamHeader.buildFromSerialized(serializedHeader);
 
+            // Load the header into streaming configuration
+            loadHeaderConfiguration(streamHeader);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,5 +98,14 @@ public class NetworkClient {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * The header to make the configuration with
+     * @param streamHeader The StreamHeader
+     */
+    private void loadHeaderConfiguration(StreamHeader streamHeader){
+        int size = streamHeader.getBufferSize();
+        this.datagramPacket = new DatagramPacket(new byte[size],size);
     }
 }

@@ -19,8 +19,6 @@ import java.util.ArrayList;
  */
 public class OutcomingStream implements Runnable, ConnectionListener {
 
-    private static final int SAMPLES_PER_BLOCK = 256;
-
     private byte[] chunk;
     private Queue queue;
     private AudioInputManager audioInputManager;
@@ -34,12 +32,11 @@ public class OutcomingStream implements Runnable, ConnectionListener {
      *
      */
     public OutcomingStream() {
-        this.audioInputManager = new AudioInputManager(SAMPLES_PER_BLOCK);
-        this.streamHeader = new StreamHeader(audioInputManager.getBufferSize(), SAMPLES_PER_BLOCK);
+        this.audioInputManager = new AudioInputManager();
+        this.streamHeader = new StreamHeader(audioInputManager.getBufferSize());
         this.queue = new Queue(audioInputManager.getBufferSize());
         this.sender = new NetworkServer(streamHeader);
         this.dataAvailableListeners = new ArrayList<>();
-        this.chunk = new byte[SAMPLES_PER_BLOCK];
     }
 
     /**

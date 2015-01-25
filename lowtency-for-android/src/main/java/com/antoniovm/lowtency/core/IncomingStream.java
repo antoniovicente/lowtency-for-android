@@ -9,7 +9,6 @@ import android.os.Parcelable;
 import com.antoniovm.lowtency.audio.AudioOutputManager;
 import com.antoniovm.lowtency.event.DataAvailableListener;
 import com.antoniovm.lowtency.net.NetworkClient;
-import com.antoniovm.util.event.DataListener;
 import com.antoniovm.util.raw.BlockingQueue;
 
 import java.util.ArrayList;
@@ -22,19 +21,16 @@ import java.util.ArrayList;
  *
  * @author Antonio Vicente Martin
  */
-public class IncomingStream implements Runnable, Parcelable, DataListener {
+public class IncomingStream implements Runnable, Parcelable {
 
-    private static final int SAMPLES_PER_CHUNK = 256;
-
-    private byte[] data;
     private BlockingQueue blockingQueue;
     private NetworkClient receiver;
-    private AudioOutputManager audioOutputManager;
     private Thread thread;
     private boolean running;
     private String host;
     private int port;
     private ArrayList<DataAvailableListener> dataAvailableListeners;
+    private int bufferLengthInSamples;
 
     /**
      * Builds a new IncomingString
@@ -42,15 +38,12 @@ public class IncomingStream implements Runnable, Parcelable, DataListener {
      * @param port The remote's aplication port
      */
     public IncomingStream(String host, int port) {
-        this.audioOutputManager = new AudioOutputManager(SAMPLES_PER_CHUNK);
-        this.blockingQueue = audioOutputManager.getBlockingQueue();
-        this.blockingQueue.addDataListener(this);
-        this.data = new byte[blockingQueue.getCapacity()];
-        this.receiver = new NetworkClient(SAMPLES_PER_CHUNK);
+        this.receiver = new NetworkClient();
         this.running = false;
         this.host = host;
         this.port = port;
         this.dataAvailableListeners = new ArrayList<>();
+        this.bufferLengthInSamples = -1;
     }
 
     /**
@@ -99,16 +92,23 @@ public class IncomingStream implements Runnable, Parcelable, DataListener {
 
         StreamHeader streamHeader = receiver.receiveHeader();
 
+        byte[] data;
+
+        AudioOutputManager audioOutputManager = new AudioOutputManager(streamHeader.getBufferSize());
+        this.blockingQueue = audioOutputManager.getBlockingQueue();
         audioOutputManager.play();
+        this.bufferLengthInSamples = audioOutputManager.getBufferLengthInSamples();
 
         running = true;
 
-        byte[] data = null;
 
         while (running) {
             data = receiver.receiveUDP();
             blockingQueue.push(data);
+            fireOnDataAvailable(data, audioOutputManager.getBytesPerSample());
         }
+
+        audioOutputManager.stop();
 
         tearDown();
 
@@ -118,9 +118,9 @@ public class IncomingStream implements Runnable, Parcelable, DataListener {
      * Stops the playback
      */
     private void tearDown() {
-        this.audioOutputManager.stop();
         this.thread = null;
         this.receiver.close();
+        this.bufferLengthInSamples = -1;
     }
 
     /**
@@ -147,7 +147,7 @@ public class IncomingStream implements Runnable, Parcelable, DataListener {
      * @return bufferLength The buffer's length in samples
      */
     public int getBufferLengthInSamples() {
-        return audioOutputManager.getBufferLengthInSamples();
+        return bufferLengthInSamples;
     }
 
     @Override
@@ -159,16 +159,5 @@ public class IncomingStream implements Runnable, Parcelable, DataListener {
     public void writeToParcel(Parcel dest, int flags) {
         Object[] os = {this};
         dest.writeArray(os);
-    }
-
-    @Override
-    public void onFull() {
-        blockingQueue.peek(data);
-        fireOnDataAvailable(data, audioOutputManager.getBytesPerSample());
-    }
-
-    @Override
-    public void onEmpty() {
-
     }
 }

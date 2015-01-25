@@ -34,6 +34,7 @@ public class WaveCanvas extends View implements DataAvailableListener {
 		super(context, attrs);
 		this.defaultPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		this.defaultPaint.setColor(Color.RED);
+        this.normalizedBuffer = new double[1024];
 
 		/*int color = Color.RED;
 		Drawable background = getBackground();

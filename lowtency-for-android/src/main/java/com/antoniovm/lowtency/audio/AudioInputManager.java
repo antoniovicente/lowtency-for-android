@@ -7,8 +7,6 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 
-import com.antoniovm.lowtency.util.MathUtils;
-
 import java.util.concurrent.Semaphore;
 
 /**
@@ -22,16 +20,13 @@ public class AudioInputManager {
     private byte[] buffer;
     private Semaphore semaphore;
 
-    /**
-     * @param chunkSizeInSamples The buffer chunk size to handle in samples
-     */
-    public AudioInputManager(int chunkSizeInSamples) {
+    public AudioInputManager() {
         int minBufferSize = AudioRecord.getMinBufferSize(AudioIOManger.DEFAULT_SAMPLERATE, AudioFormat.CHANNEL_IN_MONO,
                 AudioFormat.ENCODING_PCM_16BIT);
         this.recorder = new AudioRecord(MediaRecorder.AudioSource.DEFAULT, AudioIOManger.DEFAULT_SAMPLERATE,
                 AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, minBufferSize);
 
-        minBufferSize = MathUtils.getUpperClosestMultiple(minBufferSize, chunkSizeInSamples * getBytesPerSample());
+        //minBufferSize = MathUtils.getUpperClosestMultiple(minBufferSize, chunkSizeInSamples * getBytesPerSample());
 
         this.buffer = new byte[minBufferSize];
         this.semaphore = new Semaphore(0);
