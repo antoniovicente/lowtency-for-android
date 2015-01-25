@@ -101,7 +101,6 @@ public class IncomingStream implements Runnable, Parcelable {
 
         running = true;
 
-
         while (running) {
             data = receiver.receiveUDP();
             blockingQueue.push(data);
